@@ -1,0 +1,1 @@
+InvestiClub - <?= $this->firstName ?> <?= $this->lastName ?> wants to join your club

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs for page Brokers.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/library/Ivc/Model/Clubs/Brokers.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-classes">Classes</a>
+			|													<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">InvestiClub</p>
+<p class="description"><p>LICENSE</p><p>This file may not be duplicated, disclosed or reproduced in whole or in part for any purpose without the express written authorization of InvestiClub.</p></p>
+	<ul class="tags">
+				<li><span class="field">copyright:</span> Copyright (c) 2011-2013 All Rights Reserved</li>
+				<li><span class="field">license:</span> <a href="http://investiclub.net/license">http://investiclub.net/license</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+	<a name="sec-classes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Classes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Classes</span>
+			|																<a href="#sec-functions">Functions</a>
+					</div>
+		<div class="info-box-body">	
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"/>
+						<a href="../Ivc_Model/Clubs/Ivc_Model_Clubs_Brokers.html">Ivc_Model_Clubs_Brokers</a>
+					</td>
+					<td>
+											Brokers model
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|															<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functiongetCountry" id="functiongetCountry"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">getCountry</span> (line <span class="line-number">99</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getCountry
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functiongetDefault" id="functiongetDefault"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">getDefault</span> (line <span class="line-number">109</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getDefault
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functiongetId" id="functiongetId"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">getId</span> (line <span class="line-number">69</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getId
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functiongetName" id="functiongetName"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">getName</span> (line <span class="line-number">79</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getName
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functiongetUrl" id="functiongetUrl"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">getUrl</span> (line <span class="line-number">89</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getUrl
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionsetCountry" id="functionsetCountry"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">setCountry</span> (line <span class="line-number">104</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setCountry
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$_country</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$_country</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionsetDefault" id="functionsetDefault"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">setDefault</span> (line <span class="line-number">114</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setDefault
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$_default</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$_default</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionsetId" id="functionsetId"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">setId</span> (line <span class="line-number">74</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setId
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$_id</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$_id</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionsetName" id="functionsetName"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">setName</span> (line <span class="line-number">84</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setName
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$_name</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$_name</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionsetOptions" id="functionsetOptions"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">setOptions</span> (line <span class="line-number">57</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setOptions
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$methods</span> = <span class="var-default">array $options)get_class_methods($this</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$key</span> = <span class="var-default">&amp;gt;$value</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$methods</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$key</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionsetUrl" id="functionsetUrl"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">setUrl</span> (line <span class="line-number">94</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setUrl
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$_url</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$_url</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="function__get" id="function__get"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">__get</span> (line <span class="line-number">48</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__get
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$name</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="function__set" id="function__set"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">__set</span> (line <span class="line-number">39</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__set
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$name</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 21 Feb 2012 06:45:21 +0800 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+	</p>
+	</div></body>
+</html>

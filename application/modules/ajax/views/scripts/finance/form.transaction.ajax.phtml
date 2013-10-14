@@ -1,0 +1,4 @@
+<div style="display: none" class="flash" id="form-notice-transaction"></div>
+<?= ($this->showDeleteMessage) ? $this->translate('Voulez vous supprimer cette transaction ?') : '' ?>
+<?= $this->form; ?>
+<?= $this->jQuery()->setRenderMode(ZendX_JQuery::RENDER_JQUERY_ON_LOAD) ?>

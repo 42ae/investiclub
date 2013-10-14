@@ -1,0 +1,72 @@
+<?php $this->headTitle('Signup'); ?>
+<?php $this->headLink()->appendStylesheet('/assets/css/public.css') ?>
+<?php $this->jQuery()->addJavascriptFile('http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js'); ?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+$().ready(function() {
+	$("#formSignup").validate({
+		rules: {
+			first_name: "required",
+			last_name: "required",
+			password: {
+				required: true,
+				minlength: 6
+			},
+			confirm_password: {
+				required: true,
+				minlength: 6,
+				equalTo: "#password"
+			},
+			email: {
+				required: true,
+				email: true
+			}
+		},
+		messages: {
+			first_name: "Please enter your firstname",
+			last_name: "Please enter your lastname",
+			password: {
+				required: "Please provide a password",
+				minlength: "Your password must be at least 6 characters long"
+			},
+			confirm_password: {
+				required: "Please provide a password",
+				minlength: "Your password must be at least 6 characters long",
+				equalTo: "Please enter the same password as above"
+			},
+			email: "Please enter a valid email address"
+		}
+	});
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+
+<h1 style="text-align:center; font-size:20px; margin-top: 0; margin-bottom:60px;"><?= $this->translate('SIGNUP_TITLE'); ?></h1>
+
+<div class="left" style="width:49%">
+  <div class="left" style="margin-right:10px;">
+   <img src="<?= $this->baseUrl('/assets/img/template/marketing.png') ?>"></img>
+  </div>
+  <?= $this->translate('SIGNUP_DESC'); ?>
+</div>
+
+
+<div class="right" style="width:49%">
+<form id="signup" action="<?= $this->form->getAction() ?>" method="<?= $this->form->getMethod(); ?>" enctype="<?= $this->form->getEnctype(); ?>">
+    <?= $this->messages; ?>
+    <table>
+    <tbody>
+    <?= $this->form->first_name->render(); ?>
+    <?= $this->form->last_name->render(); ?>
+    <?= $this->form->email->render(); ?>
+    <?= $this->form->password->render(); ?>
+    <?= $this->form->confirm_password->render(); ?>
+    </tbody>
+    </table>
+    <fieldset id="actions">
+        <?= $this->form->submit->render(); ?>
+        <?= $this->form->locale->render(); ?>
+        <a href="<?= $this->url(array('controller' => 'account', 'action' => 'login'), 'default', true); ?>">J'ai déjà un compte</a>
+    </fieldset>
+    <p id="terms"><?php printf($this->translate("SIGNUP_TERMS_MSG"), '<a href="/terms">' . $this->translate("SIGNUP_TERMS") . '</a>'); ?> </p>
+</form>
+</div>

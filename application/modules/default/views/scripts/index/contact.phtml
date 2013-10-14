@@ -1,0 +1,203 @@
+<style type="text/css">
+#home-wrapper {
+	font-size: 16px;
+	margin: 0 auto;
+	padding: 4px 48px 0;
+	position: relative;
+	width: 896px;
+	clear: left;
+}
+
+#home-wrapper h1 {
+	font-size: 48px;
+	line-height: 30px;
+	margin: 0.2em 0;
+	text-align: center;
+	text-shadow: 0 2px 0 #FFFFFF;
+}
+
+#home-wrapper .home-row {
+	margin: 0 auto;
+	max-width: 896px;
+	overflow: hidden;
+	padding: 1em 0 0;
+	width: 100%;
+}
+
+.home-row h4 {
+	padding: 20px 0;
+	font-size: 21px;
+	line-height: 30px;
+	text-align: left;
+	color: gray;
+}
+
+#keep-me-updated {
+	float: left;
+	width: 896px;
+}
+
+#keep-me-updated form {
+	margin-left: 71px;
+	width: 750px;
+	float: left;
+}
+
+#keep-me-updated #privacy {
+	color: #999;
+	font-size: 14px;
+	line-height: 18px;
+	margin: 0 auto 24px;
+	text-align: center;
+}
+
+#keep-me-updated #form-errors {
+	color: red;
+	font-size: 12px;
+	height: 16px;
+	width: 100%;
+	float: left;
+	margin: 0 auto;
+	text-align: right;
+	padding: 4px 0 8px;
+}
+
+#email-wrapper {
+	background: url("/assets/img/template/keep-me-updated.png") no-repeat scroll 12px 19px #EBF3FE;
+	border: 1px solid #767676;
+	border-radius: 3px 3px 3px 3px;
+	height: 66px;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	width: 500px;
+	float: left;
+}
+
+#email-wrapper input {
+	background-color: transparent;
+	border: 0 none;
+	color: gray;
+	font-size: 30px;
+	font-weight: normal;
+	left: 56px;
+	padding: 12px 0 18px;
+	position: absolute;
+	top: 1px;
+	width: 434px;
+}
+
+#button-wrapper {
+	float: right;
+	width: 243px;
+}
+
+#button-wrapper input {
+	background: -moz-linear-gradient(center top, #EEEFEF 0%, #EEEFEF 50%, #E8E8E8 51%, #E8E8E8 100%) repeat scroll 0 0
+		transparent;
+	border: 1px solid #999;
+	border-radius: 3px 3px 3px 3px;
+	color: #555;
+	cursor: pointer;
+	line-height: 100%;
+	text-shadow: 0 0 1px white;
+	font-size: 23px;
+	height: 68px;
+	margin: 0;
+	padding: 0 22px;
+	outline: medium none;
+}
+
+#slider {
+	display: block;
+}
+
+#slider li {
+	margin: auto;
+	padding: auto;
+	width: 1000px;
+	height: 280px;
+}
+
+#slider div.slider-block {
+	float: left;
+	width: 500px;
+	height: 100px;
+	font-size: 14px;
+	padding: 20px 20px;
+    display: inline-block;
+	margin-top: 10px;
+	border: 1px solid #ddd;
+	background-color: #eee;
+	border-top-left-radius: 20px 30px;
+	border-bottom-right-radius: 20px 30px;
+}
+
+#slider div.slider-block p { 
+}
+
+#slider div.slider-img {
+	float: left;
+	margin-left:50px;
+}
+
+#slider div.slider-img img {
+	position: absolute;
+	top: 0;
+}
+#slider-controls {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+#our-solution {
+	padding-left: 100px;	
+}
+
+#our-solution .block {
+	height: 74px;
+	margin-top: 10px;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+#our-solution .block img {
+	padding-right:20px;
+}
+</style>
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+var types = {error:"error", warning:"warning", success:"success"};
+
+function sendForm() {
+    $.post($( "#contact-form" ).attr("action"), $( "#contact-form" ).serialize(), function(data) {
+    	if (data.messages.type === types.success) {
+    		// empty fields avec fadeOut et fill message OK avec fadeIn
+    		$( "#contact-form" ).fadeOut(600, function() {
+    			$( "#contact-form :input" ).val("");
+    			$(this).remove(); 
+    		});
+    		$( ".home-row h4" ).fadeOut(600, function() { 
+    			$(this).html(data.messages.content[0])
+    				   .css({"color": "green", "height": "48px", "padding": "60px 0"}); 
+    		}).fadeIn(800);
+        } else // .type == warning|error
+        	$( "#form-errors" ).html('Des champs sont manquants.').css('color', 'red');
+  	}, "json");
+}
+
+$(document).on("click", "#submit", function(e) {
+    e.preventDefault();
+    sendForm();
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<div id="home-wrapper" style="clear:both">
+<h1><?= $this->translate('CONTACT_TITLE') ?></h1>
+ <div class="home-row">
+  <h4><?= $this->translate('CONTACT_TEXT') ?></h4>
+  
+ <?= $this->contactForm ?>
+ <div id="form-errors"></div>
+	   
+ </div>
+</div>

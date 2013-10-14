@@ -1,0 +1,2168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 3.3.7deb6
+- http://www.phpmyadmin.net
+-
+- Host: localhost
+- Generation Time: Jan 15, 2012 at 07:55 PM
+- Server version: 5.1.49
+- PHP Version: 5.3.8-ZS5.5.0
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="http://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="investiclub" collation="utf8_general_ci" charset="utf8">
+            <pma:table name="brokers">
+                CREATE TABLE `brokers` (
+                  `broker_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+                  `name` varchar(45) NOT NULL,
+                  `url` varchar(255) DEFAULT NULL,
+                  `image` blob,
+                  `autocomplete` tinyint(1) DEFAULT '0',
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`broker_id`),
+                  UNIQUE KEY `name_UNIQUE` (`name`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="clubs">
+                CREATE TABLE `clubs` (
+                  `club_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+                  `club_name` varchar(45) NOT NULL,
+                  `broker_id` smallint(5) unsigned NOT NULL,
+                  `currency` char(3) NOT NULL,
+                  `club_registration_date` date NOT NULL,
+                  `club_dissolution_date` date DEFAULT NULL,
+                  `payment_date` datetime DEFAULT NULL,
+                  `payment_type` varchar(25) DEFAULT NULL,
+                  `payment_months` tinyint(4) DEFAULT NULL,
+                  `active` tinyint(1) NOT NULL DEFAULT '1',
+                  `created_on` datetime NOT NULL,
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`club_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="club_settings">
+                CREATE TABLE `club_settings` (
+                  `club_id` mediumint(8) unsigned NOT NULL,
+                  `min_members` smallint(6) DEFAULT '0',
+                  `max_members` smallint(6) DEFAULT '0',
+                  `transaction_fee_flat` float DEFAULT '0',
+                  `transaction_fee_percent` float DEFAULT '0',
+                  `min_contribution` float DEFAULT '0',
+                  `max_contribution` float DEFAULT '0',
+                  PRIMARY KEY (`club_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="club_users">
+                CREATE TABLE `club_users` (
+                  `club_id` mediumint(8) unsigned NOT NULL,
+                  `user_id` int(11) unsigned NOT NULL,
+                  `role` varchar(65) NOT NULL,
+                  `enrollement_date` date NOT NULL,
+                  `departure_date` date DEFAULT NULL,
+                  `active` tinyint(1) NOT NULL DEFAULT '0',
+                  `created_on` datetime NOT NULL,
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`club_id`,`user_id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="logs">
+                CREATE TABLE `logs` (
+                  `log_id` int(11) NOT NULL AUTO_INCREMENT,
+                  `user_id` int(10) unsigned NOT NULL,
+                  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  `type` varchar(45) NOT NULL,
+                  `description` varchar(255) NOT NULL,
+                  PRIMARY KEY (`log_id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="permissions">
+                CREATE TABLE `permissions` (
+                  `permission_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+                  `resource` varchar(65) NOT NULL,
+                  `privilege` varchar(65) NOT NULL,
+                  PRIMARY KEY (`permission_id`),
+                  UNIQUE KEY `member_id` (`resource`,`privilege`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="stats_cache">
+                CREATE TABLE `stats_cache` (
+                  `stat_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                  `session_id` int(11) NOT NULL,
+                  `validity` int(11) NOT NULL,
+                  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  `scope` varchar(8) NOT NULL,
+                  `key` varchar(45) NOT NULL,
+                  `full_key` varchar(45) NOT NULL,
+                  `size` mediumint(9) NOT NULL,
+                  `action` varchar(45) NOT NULL,
+                  PRIMARY KEY (`stat_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=565 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="stats_cache_session">
+                CREATE TABLE `stats_cache_session` (
+                  `session_id` int(11) NOT NULL AUTO_INCREMENT,
+                  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`session_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="treasury_balance_sheet">
+                CREATE TABLE `treasury_balance_sheet` (
+                  `balancesheet_id` int(11) NOT NULL AUTO_INCREMENT,
+                  `club_id` mediumint(8) unsigned NOT NULL,
+                  `balance` float NOT NULL,
+                  `portfolio` float NOT NULL,
+                  `profit` float NOT NULL,
+                  `date` date NOT NULL,
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`balancesheet_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="treasury_capital_users">
+                CREATE TABLE `treasury_capital_users` (
+                  `capital_id` int(11) NOT NULL AUTO_INCREMENT,
+                  `user_id` int(10) unsigned NOT NULL,
+                  `balance_sheet_id` int(11) unsigned NOT NULL,
+                  `capital` float NOT NULL,
+                  `profit` float NOT NULL,
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`capital_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="treasury_cashflow">
+                CREATE TABLE `treasury_cashflow` (
+                  `cashflow_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `club_id` mediumint(8) unsigned NOT NULL,
+                  `user_id` int(10) unsigned DEFAULT NULL,
+                  `type` enum('debit','credit') NOT NULL,
+                  `value` float DEFAULT NULL,
+                  `comment` varchar(255) NOT NULL,
+                  `date` date NOT NULL,
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`cashflow_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="treasury_departure">
+                CREATE TABLE `treasury_departure` (
+                  `departure_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `user_id` int(10) unsigned NOT NULL,
+                  `club_id` mediumint(8) unsigned NOT NULL,
+                  `date` date NOT NULL,
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`departure_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="treasury_revaluation">
+                CREATE TABLE `treasury_revaluation` (
+                  `revaluation_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `club_id` mediumint(8) unsigned NOT NULL,
+                  `value` float NOT NULL,
+                  `comment` varchar(255) NOT NULL,
+                  `date` date NOT NULL,
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`revaluation_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="treasury_transactions">
+                CREATE TABLE `treasury_transactions` (
+                  `transaction_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                  `club_id` mediumint(8) unsigned NOT NULL,
+                  `type` enum('buy','sell','dividend') NOT NULL,
+                  `share` varchar(65) DEFAULT NULL,
+                  `quantity` mediumint(8) unsigned NOT NULL,
+                  `value` float NOT NULL,
+                  `gain` float NOT NULL,
+                  `currency` char(3) NOT NULL,
+                  `date` date NOT NULL,
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`transaction_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="treasury_transac_cash">
+                CREATE TABLE `treasury_transac_cash` (
+                  `transac_cash_id` int(11) NOT NULL AUTO_INCREMENT,
+                  `transaction_id` int(11) NOT NULL,
+                  `cashflow_id` int(11) NOT NULL,
+                  PRIMARY KEY (`transac_cash_id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="users">
+                CREATE TABLE `users` (
+                  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `email` varchar(50) NOT NULL,
+                  `password` char(128) NOT NULL,
+                  `last_name` varchar(45) NOT NULL,
+                  `first_name` varchar(45) NOT NULL,
+                  `gender` enum('M','F') DEFAULT NULL,
+                  `address` varchar(100) DEFAULT NULL,
+                  `city` varchar(50) DEFAULT NULL,
+                  `postal_code` varchar(10) DEFAULT NULL,
+                  `country` char(2) NOT NULL,
+                  `phone_mobile` varchar(20) DEFAULT NULL,
+                  `phone_home` varchar(20) DEFAULT NULL,
+                  `date_of_birth` date DEFAULT NULL,
+                  `occupation` varchar(45) DEFAULT NULL,
+                  `active` tinyint(1) NOT NULL DEFAULT '0',
+                  `created_on` datetime NOT NULL,
+                  `last_login` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`user_id`),
+                  UNIQUE KEY `email_UNIQUE` (`email`),
+                  KEY `idx_fk_email` (`email`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="user_permissions">
+                CREATE TABLE `user_permissions` (
+                  `user_id` int(10) unsigned NOT NULL,
+                  `permission_id` smallint(5) unsigned NOT NULL,
+                  `is_allowed` tinyint(1) DEFAULT '0',
+                  PRIMARY KEY (`user_id`,`permission_id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="user_settings">
+                CREATE TABLE `user_settings` (
+                  `user_id` int(10) unsigned NOT NULL,
+                  `locale` varchar(11) NOT NULL DEFAULT 'en_US',
+                  `currency` char(3) NOT NULL DEFAULT 'EUR' COMMENT 'Currency code that follows ISO 4217 standard.',
+                  `timezone` varchar(45) NOT NULL DEFAULT 'UTC',
+                  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`user_id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'investiclub'
+    -->
+    <database name="investiclub">
+        <!-- Table brokers -->
+        <table name="brokers">
+            <column name="broker_id">1</column>
+            <column name="name">Fortuneo</column>
+            <column name="url">http://www.fortuneo.fr/</column>
+            <column name="image">NULL</column>
+            <column name="autocomplete">1</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="brokers">
+            <column name="broker_id">2</column>
+            <column name="name">Boursorama</column>
+            <column name="url">http://www.boursorama.com</column>
+            <column name="image">NULL</column>
+            <column name="autocomplete">1</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <!-- Table clubs -->
+        <table name="clubs">
+            <column name="club_id">10</column>
+            <column name="club_name">PortfolioTest</column>
+            <column name="broker_id">1</column>
+            <column name="currency">EUR</column>
+            <column name="club_registration_date">2012-01-01</column>
+            <column name="club_dissolution_date">NULL</column>
+            <column name="payment_date">2012-01-06 04:34:42</column>
+            <column name="payment_type">Paypal</column>
+            <column name="payment_months">12</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-01 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="clubs">
+            <column name="club_id">11</column>
+            <column name="club_name">Americana</column>
+            <column name="broker_id">2</column>
+            <column name="currency">USD</column>
+            <column name="club_registration_date">2012-01-01</column>
+            <column name="club_dissolution_date">NULL</column>
+            <column name="payment_date">2012-01-06 04:34:42</column>
+            <column name="payment_type">Credit Card</column>
+            <column name="payment_months">6</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-01 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <!-- Table club_settings -->
+        <table name="club_settings">
+            <column name="club_id">10</column>
+            <column name="min_members">5</column>
+            <column name="max_members">20</column>
+            <column name="transaction_fee_flat">3</column>
+            <column name="transaction_fee_percent">1</column>
+            <column name="min_contribution">NULL</column>
+            <column name="max_contribution">NULL</column>
+        </table>
+        <table name="club_settings">
+            <column name="club_id">11</column>
+            <column name="min_members">0</column>
+            <column name="max_members">0</column>
+            <column name="transaction_fee_flat">0</column>
+            <column name="transaction_fee_percent">0</column>
+            <column name="min_contribution">25</column>
+            <column name="max_contribution">400</column>
+        </table>
+        <!-- Table club_users -->
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">110</column>
+            <column name="role">Administrator</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">111</column>
+            <column name="role">President</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">112</column>
+            <column name="role">Accountant</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">113</column>
+            <column name="role">Secretary</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">114</column>
+            <column name="role">Investor</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">115</column>
+            <column name="role">Investor</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">116</column>
+            <column name="role">Investor</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">117</column>
+            <column name="role">Investor</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">118</column>
+            <column name="role">Investor</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">10</column>
+            <column name="user_id">119</column>
+            <column name="role">Investor</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="club_users">
+            <column name="club_id">11</column>
+            <column name="user_id">102</column>
+            <column name="role">Administrator</column>
+            <column name="enrollement_date">2011-12-10</column>
+            <column name="departure_date">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <!-- Table logs -->
+        <!-- Table permissions -->
+        <!-- Table stats_cache -->
+        <table name="stats_cache">
+            <column name="stat_id">563</column>
+            <column name="session_id">84</column>
+            <column name="validity">-1</column>
+            <column name="date">2012-01-07 22:05:55</column>
+            <column name="scope">user</column>
+            <column name="key">acl</column>
+            <column name="full_key">useracl</column>
+            <column name="size">4740</column>
+            <column name="action">cache_hit</column>
+        </table>
+        <table name="stats_cache">
+            <column name="stat_id">562</column>
+            <column name="session_id">83</column>
+            <column name="validity">86400</column>
+            <column name="date">2012-01-07 22:05:54</column>
+            <column name="scope">user</column>
+            <column name="key">acl</column>
+            <column name="full_key">useracl</column>
+            <column name="size">4740</column>
+            <column name="action">replace</column>
+        </table>
+        <table name="stats_cache">
+            <column name="stat_id">561</column>
+            <column name="session_id">83</column>
+            <column name="validity">-1</column>
+            <column name="date">2012-01-07 22:05:54</column>
+            <column name="scope">user</column>
+            <column name="key">acl</column>
+            <column name="full_key">useracl</column>
+            <column name="size">4740</column>
+            <column name="action">cache_hit</column>
+        </table>
+        <table name="stats_cache">
+            <column name="stat_id">560</column>
+            <column name="session_id">82</column>
+            <column name="validity">-1</column>
+            <column name="date">2012-01-07 21:58:21</column>
+            <column name="scope">user</column>
+            <column name="key">acl</column>
+            <column name="full_key">useracl</column>
+            <column name="size">4740</column>
+            <column name="action">cache_hit</column>
+        </table>
+        <table name="stats_cache">
+            <column name="stat_id">559</column>
+            <column name="session_id">81</column>
+            <column name="validity">-1</column>
+            <column name="date">2012-01-07 21:58:21</column>
+            <column name="scope">user</column>
+            <column name="key">acl</column>
+            <column name="full_key">useracl</column>
+            <column name="size">4740</column>
+            <column name="action">cache_hit</column>
+        </table>
+        <table name="stats_cache">
+            <column name="stat_id">558</column>
+            <column name="session_id">80</column>
+            <column name="validity">-1</column>
+            <column name="date">2012-01-07 21:58:10</column>
+            <column name="scope">user</column>
+            <column name="key">acl</column>
+            <column name="full_key">useracl</column>
+            <column name="size">4740</column>
+            <column name="action">cache_hit</column>
+        </table>
+        <table name="stats_cache">
+            <column name="stat_id">557</column>
+            <column name="session_id">79</column>
+            <column name="validity">-1</column>
+            <column name="date">2012-01-07 21:58:10</column>
+            <column name="scope">user</column>
+            <column name="key">acl</column>
+            <column name="full_key">useracl</column>
+            <column name="size">4740</column>
+            <column name="action">cache_hit</column>
+        </table>
+        <table name="stats_cache">
+            <column name="stat_id">564</column>
+            <column name="session_id">84</column>
+            <column name="validity">86400</column>
+            <column name="date">2012-01-07 22:05:55</column>
+            <column name="scope">user</column>
+            <column name="key">acl</column>
+            <column name="full_key">useracl</column>
+            <column name="size">4740</column>
+            <column name="action">replace</column>
+        </table>
+        <!-- Table stats_cache_session -->
+        <table name="stats_cache_session">
+            <column name="session_id">72</column>
+            <column name="date">2012-01-07 21:55:09</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">73</column>
+            <column name="date">2012-01-07 21:56:36</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">74</column>
+            <column name="date">2012-01-07 21:56:36</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">75</column>
+            <column name="date">2012-01-07 21:56:51</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">76</column>
+            <column name="date">2012-01-07 21:56:51</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">77</column>
+            <column name="date">2012-01-07 21:57:40</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">78</column>
+            <column name="date">2012-01-07 21:57:40</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">79</column>
+            <column name="date">2012-01-07 21:58:10</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">80</column>
+            <column name="date">2012-01-07 21:58:10</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">81</column>
+            <column name="date">2012-01-07 21:58:21</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">82</column>
+            <column name="date">2012-01-07 21:58:21</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">83</column>
+            <column name="date">2012-01-07 22:05:54</column>
+        </table>
+        <table name="stats_cache_session">
+            <column name="session_id">84</column>
+            <column name="date">2012-01-07 22:05:55</column>
+        </table>
+        <!-- Table treasury_balance_sheet -->
+        <table name="treasury_balance_sheet">
+            <column name="balancesheet_id">13</column>
+            <column name="club_id">10</column>
+            <column name="balance">240</column>
+            <column name="portfolio">3460</column>
+            <column name="profit">0</column>
+            <column name="date">2011-02-28</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_balance_sheet">
+            <column name="balancesheet_id">12</column>
+            <column name="club_id">10</column>
+            <column name="balance">700</column>
+            <column name="portfolio">1150</column>
+            <column name="profit">0</column>
+            <column name="date">2011-01-31</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_balance_sheet">
+            <column name="balancesheet_id">11</column>
+            <column name="club_id">10</column>
+            <column name="balance">0</column>
+            <column name="portfolio">0</column>
+            <column name="profit">0</column>
+            <column name="date">2010-12-31</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <!-- Table treasury_capital_users -->
+        <table name="treasury_capital_users">
+            <column name="capital_id">50</column>
+            <column name="user_id">110</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">49</column>
+            <column name="user_id">118</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">48</column>
+            <column name="user_id">117</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">47</column>
+            <column name="user_id">116</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">46</column>
+            <column name="user_id">115</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">45</column>
+            <column name="user_id">114</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">44</column>
+            <column name="user_id">113</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">43</column>
+            <column name="user_id">112</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">42</column>
+            <column name="user_id">111</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">41</column>
+            <column name="user_id">119</column>
+            <column name="balance_sheet_id">10</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">40</column>
+            <column name="user_id">119</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">39</column>
+            <column name="user_id">111</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">38</column>
+            <column name="user_id">112</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">37</column>
+            <column name="user_id">113</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">36</column>
+            <column name="user_id">114</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">35</column>
+            <column name="user_id">115</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">34</column>
+            <column name="user_id">116</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">33</column>
+            <column name="user_id">117</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">32</column>
+            <column name="user_id">118</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">31</column>
+            <column name="user_id">110</column>
+            <column name="balance_sheet_id">9</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-07 18:33:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">51</column>
+            <column name="user_id">110</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">52</column>
+            <column name="user_id">111</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">53</column>
+            <column name="user_id">112</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">54</column>
+            <column name="user_id">113</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">55</column>
+            <column name="user_id">114</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">56</column>
+            <column name="user_id">115</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">57</column>
+            <column name="user_id">116</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">58</column>
+            <column name="user_id">117</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">59</column>
+            <column name="user_id">118</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">60</column>
+            <column name="user_id">119</column>
+            <column name="balance_sheet_id">12</column>
+            <column name="capital">185</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">61</column>
+            <column name="user_id">110</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">62</column>
+            <column name="user_id">111</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">63</column>
+            <column name="user_id">112</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">64</column>
+            <column name="user_id">113</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">65</column>
+            <column name="user_id">114</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">66</column>
+            <column name="user_id">115</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">67</column>
+            <column name="user_id">116</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">68</column>
+            <column name="user_id">117</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">69</column>
+            <column name="user_id">118</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">70</column>
+            <column name="user_id">119</column>
+            <column name="balance_sheet_id">13</column>
+            <column name="capital">370</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-10 02:48:56</column>
+        </table>
+        <table name="treasury_capital_users">
+            <column name="capital_id">71</column>
+            <column name="user_id">42</column>
+            <column name="balance_sheet_id">4242</column>
+            <column name="capital">8484</column>
+            <column name="profit">0</column>
+            <column name="last_update">2012-01-14 22:05:19</column>
+        </table>
+        <!-- Table treasury_cashflow -->
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">1</column>
+            <column name="club_id">10</column>
+            <column name="user_id">110</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">2</column>
+            <column name="club_id">10</column>
+            <column name="user_id">111</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">3</column>
+            <column name="club_id">10</column>
+            <column name="user_id">112</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">4</column>
+            <column name="club_id">10</column>
+            <column name="user_id">113</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">5</column>
+            <column name="club_id">10</column>
+            <column name="user_id">114</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">6</column>
+            <column name="club_id">10</column>
+            <column name="user_id">115</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">7</column>
+            <column name="club_id">10</column>
+            <column name="user_id">116</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">8</column>
+            <column name="club_id">10</column>
+            <column name="user_id">117</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">9</column>
+            <column name="club_id">10</column>
+            <column name="user_id">118</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">10</column>
+            <column name="club_id">10</column>
+            <column name="user_id">119</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-01-01</column>
+            <column name="last_update">2012-01-07 15:59:27</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">11</column>
+            <column name="club_id">10</column>
+            <column name="user_id">110</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">12</column>
+            <column name="club_id">10</column>
+            <column name="user_id">111</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">13</column>
+            <column name="club_id">10</column>
+            <column name="user_id">112</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">14</column>
+            <column name="club_id">10</column>
+            <column name="user_id">113</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">15</column>
+            <column name="club_id">10</column>
+            <column name="user_id">114</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">16</column>
+            <column name="club_id">10</column>
+            <column name="user_id">115</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">17</column>
+            <column name="club_id">10</column>
+            <column name="user_id">116</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">18</column>
+            <column name="club_id">10</column>
+            <column name="user_id">117</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">19</column>
+            <column name="club_id">10</column>
+            <column name="user_id">118</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-07 16:04:39</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">20</column>
+            <column name="club_id">10</column>
+            <column name="user_id">119</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-02-05</column>
+            <column name="last_update">2012-01-11 19:58:44</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">21</column>
+            <column name="club_id">10</column>
+            <column name="user_id">110</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-07 16:13:36</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">22</column>
+            <column name="club_id">10</column>
+            <column name="user_id">111</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-11 21:14:43</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">23</column>
+            <column name="club_id">10</column>
+            <column name="user_id">112</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-07 16:13:36</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">24</column>
+            <column name="club_id">10</column>
+            <column name="user_id">113</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-11 19:39:12</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">25</column>
+            <column name="club_id">10</column>
+            <column name="user_id">114</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-07 16:13:36</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">26</column>
+            <column name="club_id">10</column>
+            <column name="user_id">115</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-07 16:13:36</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">27</column>
+            <column name="club_id">10</column>
+            <column name="user_id">116</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-07 16:13:36</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">28</column>
+            <column name="club_id">10</column>
+            <column name="user_id">117</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-07 16:13:36</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">29</column>
+            <column name="club_id">10</column>
+            <column name="user_id">118</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-07 16:13:36</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">30</column>
+            <column name="club_id">10</column>
+            <column name="user_id">119</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-05</column>
+            <column name="last_update">2012-01-07 16:13:36</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">31</column>
+            <column name="club_id">10</column>
+            <column name="user_id">110</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre A</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">32</column>
+            <column name="club_id">10</column>
+            <column name="user_id">111</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre B</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">33</column>
+            <column name="club_id">10</column>
+            <column name="user_id">112</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre C</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">34</column>
+            <column name="club_id">10</column>
+            <column name="user_id">113</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre D</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">35</column>
+            <column name="club_id">10</column>
+            <column name="user_id">114</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre E</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">36</column>
+            <column name="club_id">10</column>
+            <column name="user_id">115</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre F</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 21:19:44</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">37</column>
+            <column name="club_id">10</column>
+            <column name="user_id">116</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre G</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">38</column>
+            <column name="club_id">10</column>
+            <column name="user_id">117</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre H</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">39</column>
+            <column name="club_id">10</column>
+            <column name="user_id">118</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre I</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">40</column>
+            <column name="club_id">10</column>
+            <column name="user_id">119</column>
+            <column name="type">debit</column>
+            <column name="value">NULL</column>
+            <column name="comment">distribution produit coupon membre J</column>
+            <column name="date">2011-04-01</column>
+            <column name="last_update">2012-01-11 18:31:28</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">41</column>
+            <column name="club_id">10</column>
+            <column name="user_id">NULL</column>
+            <column name="type">credit</column>
+            <column name="value">200</column>
+            <column name="comment">ajout comme ca</column>
+            <column name="date">2011-02-20</column>
+            <column name="last_update">2012-01-07 16:27:17</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">42</column>
+            <column name="club_id">10</column>
+            <column name="user_id">NULL</column>
+            <column name="type">debit</column>
+            <column name="value">45</column>
+            <column name="comment">paiment IVC !</column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-07 16:27:17</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">43</column>
+            <column name="club_id">10</column>
+            <column name="user_id">110</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-07 18:10:12</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">44</column>
+            <column name="club_id">10</column>
+            <column name="user_id">111</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-07 18:10:12</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">45</column>
+            <column name="club_id">10</column>
+            <column name="user_id">112</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-07 18:10:12</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">47</column>
+            <column name="club_id">10</column>
+            <column name="user_id">114</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-07 18:10:12</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">48</column>
+            <column name="club_id">10</column>
+            <column name="user_id">115</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-07 18:10:12</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">49</column>
+            <column name="club_id">10</column>
+            <column name="user_id">116</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-07 18:10:12</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">50</column>
+            <column name="club_id">10</column>
+            <column name="user_id">117</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-07 18:10:12</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">51</column>
+            <column name="club_id">10</column>
+            <column name="user_id">118</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-11 17:09:56</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">46</column>
+            <column name="club_id">10</column>
+            <column name="user_id">113</column>
+            <column name="type">credit</column>
+            <column name="value">185</column>
+            <column name="comment"></column>
+            <column name="date">2011-04-05</column>
+            <column name="last_update">2012-01-11 17:10:56</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">74</column>
+            <column name="club_id">10</column>
+            <column name="user_id">110</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">75</column>
+            <column name="club_id">10</column>
+            <column name="user_id">111</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">76</column>
+            <column name="club_id">10</column>
+            <column name="user_id">112</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">77</column>
+            <column name="club_id">10</column>
+            <column name="user_id">113</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">78</column>
+            <column name="club_id">10</column>
+            <column name="user_id">114</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">79</column>
+            <column name="club_id">10</column>
+            <column name="user_id">115</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">80</column>
+            <column name="club_id">10</column>
+            <column name="user_id">116</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">81</column>
+            <column name="club_id">10</column>
+            <column name="user_id">117</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">82</column>
+            <column name="club_id">10</column>
+            <column name="user_id">118</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <table name="treasury_cashflow">
+            <column name="cashflow_id">83</column>
+            <column name="club_id">10</column>
+            <column name="user_id">119</column>
+            <column name="type">credit</column>
+            <column name="value">NULL</column>
+            <column name="comment"></column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 23:07:26</column>
+        </table>
+        <!-- Table treasury_departure -->
+        <table name="treasury_departure">
+            <column name="departure_id">1</column>
+            <column name="user_id">119</column>
+            <column name="club_id">10</column>
+            <column name="date">2011-04-03</column>
+            <column name="last_update">2012-01-07 17:26:15</column>
+        </table>
+        <!-- Table treasury_revaluation -->
+        <table name="treasury_revaluation">
+            <column name="revaluation_id">1</column>
+            <column name="club_id">10</column>
+            <column name="value">274</column>
+            <column name="comment">reevaluation du portefeuille</column>
+            <column name="date">2011-04-03</column>
+            <column name="last_update">2012-01-07 17:56:06</column>
+        </table>
+        <!-- Table treasury_transactions -->
+        <table name="treasury_transactions">
+            <column name="transaction_id">1</column>
+            <column name="club_id">10</column>
+            <column name="type">buy</column>
+            <column name="share">actionZ</column>
+            <column name="quantity">10</column>
+            <column name="value">115</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-01-02</column>
+            <column name="last_update">2012-01-07 17:07:48</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">2</column>
+            <column name="club_id">10</column>
+            <column name="type">buy</column>
+            <column name="share">actionX</column>
+            <column name="quantity">5</column>
+            <column name="value">308</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-02-06</column>
+            <column name="last_update">2012-01-07 17:07:48</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">3</column>
+            <column name="club_id">10</column>
+            <column name="type">buy</column>
+            <column name="share">actionY</column>
+            <column name="quantity">10</column>
+            <column name="value">77</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-02-06</column>
+            <column name="last_update">2012-01-07 17:07:48</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">4</column>
+            <column name="club_id">10</column>
+            <column name="type">buy</column>
+            <column name="share">actionP</column>
+            <column name="quantity">30</column>
+            <column name="value">104</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-07 17:07:48</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">5</column>
+            <column name="club_id">10</column>
+            <column name="type">buy</column>
+            <column name="share">actionQ</column>
+            <column name="quantity">20</column>
+            <column name="value">51</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-07 17:07:48</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">6</column>
+            <column name="club_id">10</column>
+            <column name="type">buy</column>
+            <column name="share">actionR</column>
+            <column name="quantity">10</column>
+            <column name="value">123</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-07 17:07:48</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">7</column>
+            <column name="club_id">10</column>
+            <column name="type">buy</column>
+            <column name="share">actionS</column>
+            <column name="quantity">5</column>
+            <column name="value">228</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-04-28</column>
+            <column name="last_update">2012-01-07 17:07:48</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">8</column>
+            <column name="club_id">10</column>
+            <column name="type">dividend</column>
+            <column name="share">actionZ</column>
+            <column name="quantity">1</column>
+            <column name="value">50</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-03-07</column>
+            <column name="last_update">2012-01-07 17:53:36</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">23</column>
+            <column name="club_id">10</column>
+            <column name="type">sell</column>
+            <column name="share">actionX</column>
+            <column name="quantity">5</column>
+            <column name="value">692</column>
+            <column name="gain">384</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-03-08</column>
+            <column name="last_update">2012-01-11 01:14:13</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">24</column>
+            <column name="club_id">10</column>
+            <column name="type">sell</column>
+            <column name="share">actionZ</column>
+            <column name="quantity">10</column>
+            <column name="value">115</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-04-02</column>
+            <column name="last_update">2012-01-11 01:14:13</column>
+        </table>
+        <table name="treasury_transactions">
+            <column name="transaction_id">25</column>
+            <column name="club_id">10</column>
+            <column name="type">sell</column>
+            <column name="share">actionY</column>
+            <column name="quantity">10</column>
+            <column name="value">77</column>
+            <column name="gain">0</column>
+            <column name="currency">EUR</column>
+            <column name="date">2011-04-02</column>
+            <column name="last_update">2012-01-11 01:14:13</column>
+        </table>
+        <!-- Table treasury_transac_cash -->
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">1</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">31</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">2</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">32</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">3</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">33</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">4</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">34</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">5</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">35</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">6</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">36</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">7</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">37</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">8</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">38</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">9</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">39</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">10</column>
+            <column name="transaction_id">8</column>
+            <column name="cashflow_id">40</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">11</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">74</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">12</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">75</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">13</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">76</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">14</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">77</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">15</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">78</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">16</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">79</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">17</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">80</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">18</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">81</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">19</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">82</column>
+        </table>
+        <table name="treasury_transac_cash">
+            <column name="transac_cash_id">20</column>
+            <column name="transaction_id">23</column>
+            <column name="cashflow_id">83</column>
+        </table>
+        <!-- Table users -->
+        <table name="users">
+            <column name="user_id">100</column>
+            <column name="email">alex@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">Esser</column>
+            <column name="first_name">Alexandre</column>
+            <column name="gender">M</column>
+            <column name="address">1 Jiaotong Daxie Road</column>
+            <column name="city">Beijing</column>
+            <column name="postal_code">400040</column>
+            <column name="country">CN</column>
+            <column name="phone_mobile">86-18610014352</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">1988-12-10</column>
+            <column name="occupation">Engineer</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-15 11:47:10</column>
+            <column name="last_login">2012-01-15 19:48:50</column>
+        </table>
+        <table name="users">
+            <column name="user_id">101</column>
+            <column name="email">jonathan@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">Hickson</column>
+            <column name="first_name">Jonathan</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">CN</column>
+            <column name="phone_mobile">86-18610014349</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">1970-01-01</column>
+            <column name="occupation">Student</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">102</column>
+            <column name="email">us@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">Doe</column>
+            <column name="first_name">John</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">US</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">1970-01-01</column>
+            <column name="occupation">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">103</column>
+            <column name="email">fr@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">De La Forêt</column>
+            <column name="first_name">Jean</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">2008-01-01</column>
+            <column name="occupation">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">2012-01-07 22:32:41</column>
+        </table>
+        <table name="users">
+            <column name="user_id">104</column>
+            <column name="email">uk@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">Brown</column>
+            <column name="first_name">Eva</column>
+            <column name="gender">F</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">UK</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">1920-01-01</column>
+            <column name="occupation">NULL</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">110</column>
+            <column name="email">a@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">A</column>
+            <column name="first_name">User</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">0000-00-00</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">111</column>
+            <column name="email">b@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">B</column>
+            <column name="first_name">User</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">NULL</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">112</column>
+            <column name="email">c@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">C</column>
+            <column name="first_name">User</column>
+            <column name="gender">F</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">NULL</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">113</column>
+            <column name="email">d@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">D</column>
+            <column name="first_name">User</column>
+            <column name="gender">F</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">0000-00-00</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">114</column>
+            <column name="email">e@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">E</column>
+            <column name="first_name">User</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">NULL</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">115</column>
+            <column name="email">f@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">F</column>
+            <column name="first_name">User</column>
+            <column name="gender">F</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">NULL</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">116</column>
+            <column name="email">g@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">G</column>
+            <column name="first_name">User</column>
+            <column name="gender">F</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">0000-00-00</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">117</column>
+            <column name="email">h@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">H</column>
+            <column name="first_name">User</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">NULL</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">118</column>
+            <column name="email">i@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">I</column>
+            <column name="first_name">User</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">0000-00-00</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <table name="users">
+            <column name="user_id">119</column>
+            <column name="email">j@investiclub.net</column>
+            <column name="password">8690c0c10bc1b38ecef4eeab26170da09e6e6dca2990274dd1bc72469b346ebff6dc301a14488a0ff8e500cc94d3d67b7038a7347b14a93e7570a42e634bc63a</column>
+            <column name="last_name">J</column>
+            <column name="first_name">User</column>
+            <column name="gender">M</column>
+            <column name="address">NULL</column>
+            <column name="city">NULL</column>
+            <column name="postal_code">NULL</column>
+            <column name="country">FR</column>
+            <column name="phone_mobile">NULL</column>
+            <column name="phone_home">NULL</column>
+            <column name="date_of_birth">NULL</column>
+            <column name="occupation">Tester</column>
+            <column name="active">1</column>
+            <column name="created_on">2012-01-06 04:34:42</column>
+            <column name="last_login">NULL</column>
+        </table>
+        <!-- Table user_permissions -->
+        <!-- Table user_settings -->
+        <table name="user_settings">
+            <column name="user_id">100</column>
+            <column name="locale">en_US</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Asia/Chongqing</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">101</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Asia/Shanghai</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">102</column>
+            <column name="locale">en_US</column>
+            <column name="currency">USD</column>
+            <column name="timezone">America/New_York</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">103</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">104</column>
+            <column name="locale">en_GB</column>
+            <column name="currency">GBP</column>
+            <column name="timezone">Europe/London</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">110</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">111</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">112</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">113</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">114</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">115</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">116</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">117</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+        <table name="user_settings">
+            <column name="user_id">118</column>
+            <column name="locale">fr_FR</column>
+            <column name="currency">EUR</column>
+            <column name="timezone">Europe/Paris</column>
+            <column name="last_update">2012-01-07 15:36:17</column>
+        </table>
+    </database>
+</pma_xml_export>

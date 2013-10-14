@@ -1,0 +1,79 @@
+<?php $this->headTitle('My profile'); ?>
+
+<div style="max-width:850px; margin: 0 auto;">
+<div class="group">
+ <h1 style="margin-left:150px" id="user-fullname">&raquo; <?= $this->user->first_name . ' ' . $this->user->last_name ?> </h1> 
+ <div class="left">
+	<img style="margin-right: 20px;" src="<?= $this->baseUrl() ?>/assets/img/icons/user-picture-unknown.png" />	
+ </div>
+ 
+ <div class="left" style="width:350px">
+ <h2><img src="/assets/img/icons/user-information.png" style="padding-right: 10px;">Information Générale</h2>
+ <table>
+  <tbody>
+   <tr>
+    <td style="width: 100px;"><strong>Pseudo :</strong></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td style="width: 100px;"><strong>Genre :</strong></td>
+    <td><?= ($this->user->gender == 'M') ? 'Homme' : 'Femme' ?></td>
+   </tr>
+   <tr>
+    <td style="width: 100px;"><strong>Age :</strong></td>
+    <td><?php $d = new Zend_Date($this->user->date_of_birth); $date = floor((time() - strtotime($d->toString(Zend_Date::DATE_SHORT))) / 31556926); ?><?= $date ?> ans</td>
+   </tr>
+   <tr>
+    <td style="width: 100px;"><strong>Occupation :</strong></td>
+    <td><?= $this->user->occupation ?></td>
+   </tr>
+   <tr>
+    <td style="width: 100px;"><strong>Location</strong></td>
+    <td><?= $this->user->city ?><?= ($this->user->country AND $this->user->city) ? ', ' : '' ?><?= $this->user->country ?></td>
+   </tr>
+  </tbody>
+ </table>
+ </div>
+ 
+ <div class="left">
+ <h2><img src="/assets/img/icons/user-data.png" style="padding-right: 10px;">Activité de l'utilisateur</h2>
+ <table>
+  <tbody>
+   <tr>
+    <td style="width: 150px;"><strong>Enregistré depuis :</strong></td>
+    <td><?= $this->user->created_on ?></td>
+   </tr>
+   <tr>
+    <td style="width: 150px;"><strong>Dernière connexion :</strong></td>
+    <td><?= $this->user->last_login ?></td>
+   </tr>
+   <tr>
+  </tbody>
+ </table>
+ </div>
+</div>
+ <div>
+  <h2><img src="/assets/img/icons/user-club.png" style="padding-right: 10px;">Activité du club</h2>
+  <?php if ($this->user->hasClub()): ?>
+  <?php $gateway = new Ivc_Model_Clubs_Gateway(); ?>
+  <?php $member = $gateway->fetchMember($this->user); ?>
+  <table>
+  <tbody>
+   <tr>
+    <td style="width: 250px;"><strong>Nom du club :</strong></td>
+    <td><?= $member->getClub()->name ?></td>
+   </tr>
+   <tr>
+   <tr>
+    <td style="width: 250px;"><strong>Nombre de membres :</strong></td>
+    <td><?= count($member->getClub()->getMembers()) ?></td>
+   </tr>
+  </tbody>
+ </table> 
+  <?php else: ?>
+  <p>This user doesn't have any club. Send a club request. (link)</p>
+ <?php endif;?> 
+  
+  
+ </div>
+</div>

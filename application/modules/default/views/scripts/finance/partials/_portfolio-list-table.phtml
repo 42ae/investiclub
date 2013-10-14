@@ -1,0 +1,63 @@
+<table class="google-visualization-table-table" id="portfolio" style="width:100%">
+ <thead>
+  <tr class="google-visualization-table-tr-head">
+   <th class="text-left google-visualization-table-th"></th>
+   <th class="text-left google-visualization-table-th">Symbole</th>
+   <th class="text-center google-visualization-table-th">Parts</th>
+   <th class="text-center google-visualization-table-th">Dernier prix</th>
+   <th class="text-center google-visualization-table-th">Poids</th>
+   <th class="text-center google-visualization-table-th">PRU</th>
+   <th class="text-center google-visualization-table-th">Valeur au marché</></th>
+   <th class="text-center google-visualization-table-th">+/- value latente</th>
+   <th class="text-right google-visualization-table-th">Tableau de bord</th>
+  </tr>
+ </thead>
+ <tfoot>
+  <tr class="google-visualization-table-tr-head">
+   <td class="google-visualization-table-th" colspan="4">Valeur totale du portefeuille :</td>
+   <td class="text-center google-visualization-table-th">100%</td>
+   <td class="text-center google-visualization-table-th"><?= round($this->stats["totalCostPrice"], 2) ?></td>
+   <td class="text-center google-visualization-table-th"><?= round($this->stats["totalMarketValue"], 2) ?></td>
+   <td class="text-center google-visualization-table-th"><span style="<?= (round($this->stats["totalVirtualGain"], 2) >= 0 ? "color:#6fa03d" : "color:#de3f23") ?>"><?= round($this->stats["totalVirtualGain"], 2) ?> (<?= round($this->stats["totalVirtualGainP"], 2) ?>%)</span></td>
+   <td class=""></td>
+  </tr>
+ </tfoot>
+ 
+ <?php foreach ($this->portfolio as $k => $row): ?>
+ <tbody>
+ <tr class="<?= ($k % 2) ? 'google-visualization-table-tr-odd' : 'google-visualization-table-tr-even' ?>">
+  <td class="pf-detailed text-left google-visualization-table-td google-visualization-table-seq"><img src="/assets/img/icons/expand.png" class="icon toggle" alt="+/-" title="Expand/Collapse" /></td>
+  <td class="pf-symbol text-left google-visualization-table-td"><span class="symbol" title="<?= $row['name'] ?>"><?= $row['symbol'] ?></span></td>
+  <td class="pf-shares text-center google-visualization-table-td"><?= round($row['shares'], 2) ?></td>
+  <td class="pf-last-price text-center google-visualization-table-td"><?= $row['lastPrice'] ?></td>
+  <td class="pf-weight text-center google-visualization-table-td"><?= round($row['weight'], 2) ?>%</td>
+  <td class="pf-cost-price text-center google-visualization-table-td"><?= round($row['costPrice'], 2) ?></td>
+  <td class="pf-market-value text-center google-visualization-table-td"><?= round($row['marketValue'], 2) ?></td>
+  <td class="pf-virtual-gain text-center google-visualization-table-td"><span class="val" style="<?= (round($row['virtualGain'], 2) >= 0) ? 'color:#6fa03d' : 'color:#de3f23' ?>"><?= (round($row['virtualGain'], 2) >= 0) ? '+' : '' ?><?= round($row['virtualGain'], 2) ?></span></td>
+  <td class="pf-dashboard text-right google-visualization-table-td"><a class="buy" href="/ajax/finance/form/transaction/<?= $row['stockId'] ?>"><img src="/assets/img/icons/add.png" class="icon tip" alt="buy" title="Achat" /></a><a class="sell" href="/ajax/finance/form/transaction/<?= $row['stockId'] ?>"><img src="/assets/img/icons/minus.png" class="icon tip" alt="sell" title="Vente" /></a><img src="/assets/img/icons/info.png" class="icon info" alt="info" /><img src="/assets/img/icons/diagram.png" class="icon diagram" alt="Diagram" /></td>
+ </tr>
+ <tr class="pf-detailed-header" style="display: none">
+  <td class="pf-detailed-date text-center" colspan="2">Date</td>
+  <td class="pf-detailed-type text-center">Type</td>
+  <td class="pf-detailed-shares text-center">Nombre</td>
+  <td class="pf-detailed-price text-center">Price</td>
+  <td class="pf-detailed-fees text-center">Fees</td>
+  <td class="pf-detailed-cost-price text-center">Cost Price</td>
+  <td class="pf-detailed-total-price text-center">Total Price</td>
+  <td class="pf-detailed-dashboard text-right"></td>
+ </tr>
+ <?php foreach ($row['ActiveHistory'] as $key => $data): ?>
+ <tr class="pf-detailed pf-row-gray" style="display: none">
+  <td class="pf-detailed-date text-center" colspan="2"><?= $data['date'] ?></td>
+  <td class="pf-detailed-type text-center"><?= ucfirst($data['ope']) ?></td>
+  <td class="pf-detailed-shares text-center"><span class="val"><?= round($data['shares'], 2) ?></span></td>
+  <td class="pf-detailed-price text-center"><span class="val"><?= round($data['price'], 2) ?></span></td>
+  <td class="pf-detailed-fees text-center"><span class="val"><?= round($data['fees'], 2) ?></span></td>
+  <td class="pf-detailed-cost-price text-center"><span class="val"><?= round($data['costPrice'], 2) ?></span></td>
+  <td class="pf-detailed-total-price text-center"><span class="val"><?= round($data['totalCost'], 2) ?></span></td>
+  <td class="pf-detailed-dashboard text-right"><a class="edit" href="/ajax/finance/form/transaction-edit/<?= $data['id'] ?>"><img src="/assets/img/icons/edit.png" alt="Edit" /></a> <a class="delete" href="/ajax/finance/form/transaction-delete/<?= $data['id'] ?>"><img src="/assets/img/icons/delete.png" alt="Delete" /></a></td>
+ </tr>
+ <?php endforeach; ?>
+ </tbody>
+ <?php endforeach; ?>	
+</table>

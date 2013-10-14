@@ -1,0 +1,9 @@
+<?php $this->placeholder('breadcrumbs')->captureStart() ?>
+
+<?= $this->navigation()->breadcrumbs()
+                       ->setLinkLast(false)
+                       ->setMinDepth(0)
+                       ->setContainer(Zend_Registry::get('nav.breadcrumbs'))
+                       ->setPartial('partials/_breadcrumbs-renderer.phtml'); ?>
+
+<?php $this->placeholder('breadcrumbs')->captureEnd() ?>

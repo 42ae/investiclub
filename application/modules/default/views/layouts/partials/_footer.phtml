@@ -1,0 +1,99 @@
+<style type="text/css">
+
+#footer-wrapper {
+	background: url("/assets/img/template/footer-bg.png") repeat scroll left top transparent;
+    color: #FFFFFF;
+    padding: 10px 10px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+#footer {
+    height: auto;
+    margin: auto;
+    padding-top: 20px;
+    position: relative;
+    width: 980px;
+	height: 80px;
+}
+
+#feedback {
+    background: url("/assets/img/template/footer/feedback.png") no-repeat scroll 0 6px transparent;
+    padding-left: 48px;
+	margin-left: 45px;
+}
+#feedback p {
+	text-align: center;
+    font-size: 13px;
+	color: #eee;
+    line-height: 18px;
+    width: 320px;
+}
+#feedback span {
+	font-size: 18px
+}
+
+#follow {
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    padding: 0 15px 0;
+	margin: 0 5px 0;
+	height:55px;
+    width: 135px;
+}
+#follow ul li {
+    float: left;
+    margin-left: 10px;
+	padding-top: 10px;
+}
+#follow ul li a {
+	background-repeat: no-repeat;
+    display: block;
+    height: 32px;
+    width: 32px;
+}
+#follow ul li.facebook a {
+	background-image: url("/assets/img/template/footer/facebook.png");
+}
+#follow ul li.twitter a {
+	background-image: url("/assets/img/template/footer/twitter.png");
+}
+#follow ul li.googleplus a {
+	background-image: url("/assets/img/template/footer/googleplus.png");
+}
+
+#links li {
+    float: left;
+    font-size: 13px;
+    line-height: 54px;
+    margin-left: 25px;
+}
+</style>
+<div id="footer-wrapper">
+	<div id="footer" class="group">
+        <div id="feedback" class="left">
+            <p><span><?= $this->translate('FOOTER_FEEDBACK') ?></span><br /><?= $this->translate('FOOTER_FEEDBACK_TEXT') ?><br /><a title="<?= $this->translate('FOOTER_FEEDBACK_LINK') ?>" href="/contact"><?= $this->translate('FOOTER_FEEDBACK_LINK') ?></a></p>
+        </div>
+        
+        <div id="follow" class="left">
+            <ul>
+                <li class="twitter"><a target="_blank" title="Twitter" href="http://www.twitter.com/investiclub"></a></li>
+                <li class="facebook"><a target="_blank" title="Facebook" href="http://www.facebook.com/investiclub"></a></li>
+                <li class="googleplus"><a target="_blank" title="Google+" href="https://plus.google.com/105236080777819335140"></a></li>
+            </ul>
+        </div>
+        
+        <div id="links" class="left">
+            <ul>
+<!--                <li><a title="About" href="/about">About</a></li>-->
+<!--                <li><a title="Contact" href="/contact">Contact</a></li>-->
+<!--                <li><a title="Press" href="/press">Press</a></li>-->
+<!--                <li><a title="Privacy Policy" href="/privacy">Privacy Policy</a></li>-->
+<!--                <li><a title="Site Map" href="/sitemap">Site Map</a></li>-->
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- end #footer -->
+<!--<p>© Copyright InvestiClub -  <?= Zend_Registry::get('requestedResource'); ?> - Locale: <?= Zend_Registry::get('Zend_Locale'); ?> - Translate: <?= Zend_Registry::get('Zend_Translate')->getLocale(); ?> - Tz: <?= Zend_Registry::get('session.l10n')->timezone; ?></p>-->

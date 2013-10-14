@@ -1,0 +1,185 @@
+<?php $this->headTitle('Messages'); ?>
+<?php $this->headLink()->appendStylesheet($this->baseUrl() . '/assets/css/table.css') ?>
+<?php $this->jQuery()->uiEnable() ?>
+<?php $this->jQuery()->addJavascriptFile('/assets/js/textext.js'); ?>
+
+
+<center><h1>Mes messages</h1></center>
+
+<?= $this->notice()->get($this->messages); ?>
+
+<div id="options-list">
+ <div style="width: 50%; margin: 0px auto; background-color: #F2F5F7; border: 1px solid #D5DCE8; height: 50px; margin-bottom: 20px; padding: 10px; width: 330px; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px;">
+	<img src="/assets/img/icons/valid-period.png" style="float:left; margin-right:10px"/>
+	<strong><a id="create-message">Envoyer un nouveau message</a></strong><br />
+	Envoyez des messages aux membres de votre club.
+ </div>
+</div>
+<div id="create-message-dialog">
+<?= $this->form ?>
+</div>
+
+<table class="google-visualization-table-table" id="portfolio" style="width:100%">
+ <thead>
+  <tr class="google-visualization-table-tr-head">
+   <th class="text-left google-visualization-table-th" style="width: 41px;"></th>
+   <th class="text-left google-visualization-table-th">Type</th>
+   <th class="text-center google-visualization-table-th">De</th>
+   <th class="text-center google-visualization-table-th" style="min-width:350px">Sujet</th>
+   <th class="text-center google-visualization-table-th">Date</th>
+  </tr>
+ </thead>
+ 
+ <?php foreach ($this->messagesList as $k => $message): ?>
+ <tbody>
+ <tr class="<?= ($k % 2) ? 'google-visualization-table-tr-odd' : 'google-visualization-table-tr-even' ?>">
+  <td class="pf-detailed text-left google-visualization-table-td google-visualization-table-seq" style="text-align:center"><img src="/assets/img/icons/expand.png" class="icon toggle" alt="+/-" title="Expand/Collapse" /></td>
+  <td class="pf-symbol text-left google-visualization-table-td" style="text-align:center"><?= ($message['sender_id'] == Ivc::getCurrentUser()->getFullName()) ? '<img src="/assets/img/icons/mail-sent.png" class="icon" alt="Sent" title="Email Sent" />' : '<img src="/assets/img/icons/mail-received.png" class="icon" alt="Received" title="Email Received" />' ?></td>
+  <td class="pf-shares text-center google-visualization-table-td" style="text-align:center"><?= $message['sender_id'] ?></td>
+  <td class="pf-last-price text-center google-visualization-table-td" style="text-align:center"><?= $message['subject'] ?></td>
+  <td class="pf-weight text-center google-visualization-table-td" style="text-align:center"><?php $d=new Zend_Date($message['timestamp'], null, 'fr_FR'); echo $d->get(Zend_Date::DATETIME_MEDIUM); ?></td>
+ </tr>
+ </tbody>
+ <tbody style="display: none">
+  <tr class="pf-detailed-header row-<?= $k ?>">
+   <td class="pf-detailed-date text-center" >À:</td>
+   <td class="pf-detailed-type text-center" colspan="4"><?= $message['recipient_id'] ?></td>
+  </tr>
+  <tr class="pf-detailed pf-row-gray row">
+   <td colspan="5" class="pf-detailed-date text-center" colspan="2" style="padding-left: 30px; padding-top: 15px; padding-bottom: 15px;"><?= str_replace("\n", "<br />", $message['message']) ?></td>
+  </tr>
+ </tbody>
+<?php endforeach; ?>	
+</table>
+
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+//<script>
+
+    
+    $(document).on("click", ".toggle", function (e) {
+    	var message = $(this).closest("tbody");
+    	console.log(message);
+    	console.log(message.next());
+    	if (message.next().is(":hidden")) {
+    		message.next().show();
+    		$(this).attr("src", "/assets/img/icons/collapse.png");
+    	} else {
+    		message.next().fadeOut("fast");
+    		$(this).attr("src", "/assets/img/icons/expand.png");
+    	}
+    });
+
+	$.extend($.ui.dialog.prototype.options, {
+	    modal: true,
+	    resizable: true,
+	    width: 550,
+	    autoOpen: false,
+	    close: function() {
+        },
+        buttons: {
+        	"Cancel": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+	});
+
+
+
+    
+
+    $( "#create-message-dialog" ).dialog({
+        buttons: {
+            "Envoyer": function() {
+            	$( "#form-create-message" ).submit();
+            }
+        },
+        open: function (event, ui) {
+        }
+    });
+
+
+    $(document).on("click", "#create-message", function(e) {
+    	e.preventDefault();
+        $( "#create-message-dialog" ).dialog('open');
+    });
+
+
+
+    var list = [
+                <?php foreach ($this->members as $member): ?>
+                <?= "'" . $member->getUser()->getFullName() . "'" ?>,
+                <?php endforeach; ?>
+        ]
+
+
+
+    $('#recipients').textext({
+        plugins : 'autocomplete tags filter'
+    })
+    .bind('getSuggestions', function(e, data) {
+        	list,
+            textext = $(e.target).textext()[0],
+            query = (data ? data.query : '') || '';
+
+        $(this).trigger(
+            'setSuggestions',
+            { result : textext.itemManager().filter(list, query)}
+        );
+    });
+
+    
+	// 2013-01: temporary stuff
+    $(document).on("click", "#sendtoall", function(e) {
+        if ($('#sendtoall').is(':checked')) {
+            var val = '[';
+        	$.each(list, function( key, value ) {
+      		  val += '"' + value + '"';
+        	  if (key != $(list).length - 1) {
+        		  val += ', ';  
+        	  }
+      		});
+        	val += ']';
+        	$('.text-wrap input[name=recipients]').val(val);
+        	$('.text-tags-on-top').html('');
+        	$('#recipients').css('padding-left', '5px');
+        	$('#recipients').hide();
+        	$('.text-wrap').hide();
+        } else {
+        	$('.text-wrap input[name=recipients]').val('');
+        	$('#recipients').show();
+        	$('.text-wrap').show();
+        }
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+	// add remove button support
+	$.extend($.ui.dialog.prototype, { 
+		"addbutton": function(buttonName, func) {	
+			var buttons = this.element.dialog("option", "buttons"); 
+			buttons[buttonName] = func; 
+			this.element.dialog("option", "buttons", buttons); 
+		}
+	});
+	$.extend($.ui.dialog.prototype, { 
+		"removebutton": function(buttonName) {	
+			var buttons = this.element.dialog("option", "buttons"); 
+			delete buttons[buttonName]; 
+			this.element.dialog("option", "buttons", buttons); 
+		} 
+	});
+
+
+<?php $this->jQuery()->onLoadCaptureEnd() ?>

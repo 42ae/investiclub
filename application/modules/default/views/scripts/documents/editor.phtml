@@ -1,0 +1,113 @@
+<ul>
+<!--<?php foreach ($this->files as $file): ?>
+<li><a class="loadFile" href="<?= $this->url(array('controller'=>'documents',
+													'action' => 'sendfile',
+													'file' => $file->getUrl()),
+													'default',
+													true) ?>"><?= $file->getName()?></a>
+</li>
+<?php endforeach; ?>
+</ul>
+-->
+<center><h1 id="docTitle"></h1></center>
+<p style="margin-bottom:30px;">
+	Date de creation: <span id="creationDate"></span><br />
+	Createur: <span id="creatorFullName"></span><br />
+	Taille: <span id="sizeH"></span><br />
+	Type: <span id="type"></span></p>
+
+<form id="textEditorForm" method="post" action="#">
+    <input type="submit" value="Sauvegarder" />
+    
+    <br />
+    <p>
+        <textarea name="text" id="rte1">
+        </textarea>
+    </p>
+
+</form>
+<?php $this->headTitle('Documents'); ?>
+<? $this->headLink()->appendStylesheet($this->baseUrl() . '/assets/css/jquery.rte.css') ?>
+<?php /*$this->jQuery()->addJavascriptFile($this->baseUrl() . '/assets/js/texteditor/jquery.ocupload-1.1.4.js')*/ ?>
+<?= $this->jQuery()->addJavascriptFile($this->baseUrl() . '/assets/js/texteditor/jquery.rte.js')?>
+<?= $this->jQuery()->addJavascriptFile($this->baseUrl() . '/assets/js/texteditor/jquery.rte.tb.js')?>
+
+<div class="modal"><!-- Ajax Spinner --></div>
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+//<script>
+
+$(document).on({
+    ajaxStart: function() { 
+        $("body").addClass("loading"); 
+    },
+    ajaxStop: function() {
+    	$("body").removeClass("loading"); 
+    }    
+});
+
+var arr = null;
+var curDoc = null;
+var openedFile = null;
+
+<? if ($this->openedFile !== null) echo 'openedFile = "' . $this->openedFile . '";' ?>
+
+    $(document).ready(function() {
+        
+    	arr = $('#rte1').rte({
+        	//css: ['default.css'],
+        		width: 1120,
+				height: 600,
+                controls_rte: rte_toolbar,
+                controls_html: html_toolbar
+        });
+
+        if (openedFile != null) {
+        	$.get('/documents/sendfile/file/' + openedFile, function(data) {
+        		arr['rte1'].set_content(data);
+        		});
+        	getFileInfos();
+    		curDoc = openedFile;
+        }
+	});
+
+	function getFileInfos() {
+		$.get('/documents/fileinfos/file/' + openedFile, function(data) {
+    		$("#docTitle").html(data.name);
+    		$("#creatorFullName").html(data.creatorFullName);
+    		$("#creationDate").html(data.creationDate);
+    		$("#sizeH").html(data.sizeH);
+    		$("#type").html(data.type);
+		},
+		"json");
+	}
+    
+    $(document).on("click", ".loadFile", function(e) {
+    	e.preventDefault();
+    	curDoc = this.href;
+    	$.get(this.href, function(data) {
+    		arr['rte1'].set_content(data);
+    		});
+    });
+
+    $(document).on("click", "#textEditorForm", function(e) {
+    	e.preventDefault();
+    	var data = arr['rte1'].get_content();
+		//console.log(data);
+		if (curDoc == null) {
+			alert('doc name not set');
+			console.log('doc name not set');
+			return;
+		}
+		
+		$.post("/documents/saveeditorfile?file=" + curDoc,
+				data,
+				function(ret) {
+					console.log("post return");
+					//console.log(ret);
+					getFileInfos();
+				}
+			);
+    });
+    
+<?php $this->jQuery()->onLoadCaptureEnd() ?>

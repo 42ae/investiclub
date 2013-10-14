@@ -1,0 +1,49 @@
+<?php $this->headTitle('Member shares'); ?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Member name', 'Benefit'],
+          <?php foreach ($this->stats as $id => $member): ?>
+          ['<?= $this->members->getUserByMemberId($id)->first_name . " " . $this->members->getUserByMemberId($id)->last_name; ?>', <?= $member['value'] ?>],
+          <?php endforeach; ?>
+        ]);
+
+        var options = {
+          title: 'Member shares'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('member-shares-chart'));
+        chart.draw(data, options);
+      }
+
+      google.load('visualization', '1', {packages:['table']});
+      google.setOnLoadCallback(drawTable);
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Nom');
+        data.addColumn('string', 'Payé');
+        data.addColumn('string', 'Valeur');
+        data.addColumn('string', 'Part');
+        data.addColumn('string', 'Unité');
+        data.addColumn('string', 'Performence');
+        data.addRows([
+		<?php foreach ($this->stats as $id => $member): ?>
+          ['<?= $this->members->getUserByMemberId($id)->first_name . " " . $this->members->getUserByMemberId($id)->last_name; ?>',
+		  	'<?= $member['paid']; ?>',
+		  	'<?= $member['value']; ?>',
+		  	'<?= $member['shareP']; ?>%',
+		  	'<?= $member['unitNb']; ?>',
+		  	'<?= $member['perfP']; ?>%'
+		  ],
+        <?php endforeach; ?>
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('member-shares-list'));
+        table.draw(data, {showRowNumber: true});
+      }
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<div id="member-shares-chart" style="width: 800px; height: 500px;"></div>
+<div id="member-shares-list"></div>

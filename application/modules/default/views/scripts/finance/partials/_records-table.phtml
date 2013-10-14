@@ -1,0 +1,22 @@
+{
+  "cols": [
+    {"id": "date",     		 "label": "Date",      "type": "date"},
+    {"id": "operation-type", "label": "Operation", "type": "string"},
+    {"id": "debit",          "label": "Débit",     "type": "number"},
+    {"id": "credit",         "label": "Crédit",    "type": "number"}, 
+    {"id": "balance",        "label": "Solde",   "type": "number"}
+    ],
+   "rows": [
+<?php $i = 0; ?>
+<?php foreach ($this->treasury['events'] as $date => $data): ?>
+     {"c":[
+         <?php $date = new Zend_Date(substr($date, 0, 10), Zend_Date::ISO_8601, 'en_US') ?>
+       {"v":"new Date(<?= $date->toString(Zend_Date::TIMESTAMP) ?>)", "f":"<?= $date->toString(Zend_Date::DATE_SHORT) ?>"},
+       {"v":"<?= $this->records()->getOperation($data) ?>", "p":{"className": "center-text google-visualization-table-td"}},
+       {"v":"<?= $this->records()->getDebit($data) ?>"},
+       {"v":"<?= $this->records()->getCredit($data) ?>"},
+       {"v":"<?= round($data['solde'], 2) ?>"}
+       ]}<?= ($i++ != count($this->treasury['events']) - 1) ? ',' : ''; ?>
+<?php endforeach; ?>
+  ]
+}

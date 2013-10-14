@@ -1,0 +1,125 @@
+<? $this->jQuery()->uiEnable(); ?>
+<? $this->headLink()->appendStylesheet($this->baseUrl() . '/assets/css/table.css') ?>
+
+<?php if (true === empty($this->reevaluationDates)): ?>
+
+	Vos réévaluations sont à jour.
+
+<?php else: ?>
+
+<div id="tabs">
+    <div id="tabs-<?= date ?>">
+    	<?php foreach ($this->reevaluationDates as $date): ?>
+        <button id="<?= $date ?>"><?= $date ?></button>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+<?= $this->notice()->get($this->messages); ?>
+
+
+<div class="modal"><!-- Ajax Spinner --></div>
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+
+$(document).on({
+    ajaxStart: function() { 
+        $("body").addClass("loading"); 
+    },
+    ajaxStop: function() {
+    	$("body").removeClass("loading"); 
+    }    
+});
+
+
+google.load('visualization', '1', {packages:['table']});
+google.setOnLoadCallback(drawTable);
+
+function drawTable() {
+	<?php $model = array('form' => $this->form, 'stocks' => $this->stocks) ?>
+	<?php $partial = $this->partial('finance/partials/_reevaluate-list.phtml', 'default', $model) ?>
+    var data = new google.visualization.DataTable(<?= $partial ?>);
+    var table = new google.visualization.Table(document.getElementById('reevaluation-list'));
+    table.draw(data, {allowHtml: true, showRowNumber: true});
+}
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<div id="reevaluation-content">
+    <form method="post" id="form-reevaluation" action="/finance/reevaluate/date/<?= $this->date ?>">
+    	<div id="reevaluation-list"></div>
+        <?= $this->form->submit ?>
+    </form>
+</div>
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+//<script>
+
+var noticeTop = $( "#top-notice" );
+
+function updateNotice(n)
+{
+    clearNotice();
+    content = "";
+    $.each(n.content, function(key, value) {
+		content += "<p>" + value + "</p>";
+    });
+    
+    if (n.type == "success") {
+    	noticeTop.stop(true, true).html(content).addClass(n.type).fadeIn(2000);
+    	noticeTop.queue(function() { 
+			setTimeout(function(){ 
+				noticeTop.dequeue(); 
+			}, 5500 );
+		});
+    	noticeTop.fadeOut("fast");
+    } else {
+    	noticeName.html(content).addClass(n.type).show("slow");
+    }
+}
+
+function clearNotice()
+{
+	noticeName.hide().empty().removeClass( "error warning success" );
+	noticeTop.hide().empty().removeClass( "error warning success" );
+}
+
+function drawAjaxTable(response)
+{
+     var data = new google.visualization.DataTable(response);
+     var table = new google.visualization.Table(document.getElementById('reevaluation-list'));
+     table.draw(data, {allowHtml: true, showRowNumber: true});
+     $( ".google-visualization-table-table" ).css("width", "100%");
+}
+
+function getReevaluationList(date, notice)
+{
+    $.get("/ajax/finance/reevaluate/date/" + date + "/format/json", function(data) {
+    	$( "#reevaluation-content" ).fadeOut(500);
+    	$( "#reevaluation-list" ).fadeOut(500, function() {
+    		$( "#reevaluation-content" ).html(data.content).fadeIn(2000);
+    		google.setOnLoadCallback(drawAjaxTable(data.table));
+			$( "#reevaluation-list" ).stop(true, true).hide().fadeIn(2000);
+			if (typeof notice !== 'undefined') {
+				updateNotice(notice);
+			}
+		});
+    });
+}
+
+
+
+$( "#tabs button" ).button().click(function(e) {
+	e.preventDefault();
+    getReevaluationList($(this).attr('id'));
+});
+
+$( "#tabs" ).tabs();
+$( "#tabs" ).css('margin-bottom', '20px');
+
+$(".google-visualization-table-td input").live('keyup', function() {
+    $('#' + $(this).attr('id') + '_total').html($(this).val() * $('#' + $(this).attr('id') + '_shares').html());
+});
+
+<?php $this->jQuery()->onLoadCaptureEnd() ?>
+
+<?php endif; ?>

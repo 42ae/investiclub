@@ -1,0 +1,41 @@
+<?php
+if (null === $this->container) {
+    $this->container = $this->breadcrumbs()->getContainer();
+}
+
+// find deepest active
+if (!$active = $this->breadcrumbs()->findActive($this->container)) {
+    return '';
+}
+
+$active = $active['page'];
+
+// put the deepest active page last in breadcrumbs
+if ($this->breadcrumbs()->getLinkLast()) {
+    $html = ' <li>' . $this->breadcrumbs()->htmlify($active) . '</li>' . PHP_EOL;
+} else {
+    $html = $active->getLabel();
+    if ($this->breadcrumbs()->getUseTranslator() && $t = $this->breadcrumbs()->getTranslator()) {
+        $html = $t->translate($html);
+    }
+    $html = ' <li>' . $this->escape($html) . '</li>' . PHP_EOL;
+}
+
+// walk back to root
+while (($parent = $active->getParent()) != null) {
+    if ($parent instanceof Zend_Navigation_Page) {
+        // prepend crumb to html
+        $html = ' <li>' . $this->breadcrumbs()->htmlify($parent) . '</li>' . PHP_EOL . $html;
+    }
+
+    if ($parent === $this->container) {
+        // at the root of the given container
+        break;
+    }
+
+    $active = $parent;
+}
+echo strlen($html) ? $this->breadcrumbs()->getIndent() . '<ul id="breadcrumbs">' . PHP_EOL 
+                     . ' <li><a href="/dashboard">Home</a></li>' . PHP_EOL
+                     . $html .  '</ul>' . PHP_EOL : '';
+?>

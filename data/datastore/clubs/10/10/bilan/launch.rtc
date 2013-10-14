@@ -1,0 +1,21 @@
+<rtc> 
+<Param authTicket ="" />
+<Param customAiccSid ="" />
+<Param customExtra1 ="" />    
+<Param customExtra2 ="" />
+<Param customExtra3 ="" />
+<Param customSource ="" />
+<Param isLobby = ""/>
+<Param role = "present"/>
+<Param meetingEndTime ="Fri Apr 20 05:42:00 PDT 2012" />
+<Param meetingID ="2Q5RHP" />
+<Param meetingPassword ="chiooMoo" />
+<Param meetingStartTime ="Fri Apr 20 03:42:00 PDT 2012" />
+<Param meetingSubject ="[EIP][2013]investiclub" />
+<Param recordingAgreement ="" />
+<Param startURI ="https://www.livemeeting.com/cc/ionis" />
+<Param required-media ="DATA" />
+<Param userCompany ="" />
+<Param userDisplayName ="" />
+<Param userEmail ="" />
+</rtc>

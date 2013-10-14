@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title></title>
+			<link rel="stylesheet" href="media/stylesheet.css" />
+						<script src="media/lib/classTree.js"></script>
+									<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+									<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "media/images/plus.png";
+				imgMinus.src = "media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+						<h3 class="package-title">Ivc_Model</h3>
+<div class="tree">
+<script language="Javascript">
+if (document.getElementById) {
+			var tree = new WebFXTree('<span class="package">Ivc_Model</span>');
+		tree.setBehavior('classic');
+		tree.openIcon = 'media/images/package.png';
+		tree.icon = 'media/images/package.png';
+	
+					var todos = new WebFXTreeItem('To-do List', 'todolist.html');
+			todos.openIcon = 'media/images/Index.png';
+			todos.icon = 'media/images/Index.png';
+			tree.add(todos);
+		
+		var class_trees = new WebFXTreeItem('Class trees', 'classtrees_Ivc_Model.html');
+		class_trees.openIcon = 'media/images/Index.png';
+		class_trees.icon = 'media/images/Index.png';
+		tree.add(class_trees);
+
+		var elements = new WebFXTreeItem('Index of elements', 'elementindex_Ivc_Model.html');
+		elements.openIcon = 'media/images/Index.png';
+		elements.icon = 'media/images/Index.png';
+		tree.add(elements);
+
+		var parent_node;
+
+		
+		
+					var tree_classe = new WebFXTreeItem('Class(es)', '');
+			tree_classe.openIcon = 'media/images/class_folder.png';
+			tree_classe.icon = 'media/images/class_folder.png';
+			
+				
+			tree.add(tree_classe);
+		
+					var tree_function = new WebFXTreeItem('Function(s)', '');
+			tree_function.openIcon = 'media/images/function_folder.png';
+			tree_function.icon = 'media/images/function_folder.png';
+			
+							var fic = new WebFXTreeItem('getActive', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functiongetActive');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getAdmin', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functiongetAdmin');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getClubId', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functiongetClubId');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getCountry', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functiongetCountry');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getDefault', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functiongetDefault');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getDepartureDate', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functiongetDepartureDate');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getEnrollementDate', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functiongetEnrollementDate');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getId', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functiongetId');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getName', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functiongetName');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getRole', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functiongetRole');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getUrl', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functiongetUrl');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('getUserId', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functiongetUserId');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setActive', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functionsetActive');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setAdmin', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functionsetAdmin');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setClubId', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functionsetClubId');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setCountry', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functionsetCountry');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setDefault', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functionsetDefault');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setDepartureDate', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functionsetDepartureDate');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setEnrollementDate', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functionsetEnrollementDate');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setId', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functionsetId');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setName', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functionsetName');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setOptions', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functionsetOptions');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setRole', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functionsetRole');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setUrl', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#functionsetUrl');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('setUserId', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html#functionsetUserId');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('__get', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#function__get');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+							var fic = new WebFXTreeItem('__set', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html#function__set');
+				fic.openIcon = 'media/images/Function.png';
+				fic.icon = 'media/images/Function.png';
+				tree_function.add(fic);
+					
+			tree.add(tree_function);
+			
+					var tree_file = new WebFXTreeItem('File(s)', '');
+			tree_file.openIcon = 'media/images/folder.png';
+			tree_file.icon = 'media/images/folder.png';
+	
+							var file = new WebFXTreeItem('Brokers.php', 'Ivc_Model/_library---Ivc---Model---Clubs---Brokers.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+							var file = new WebFXTreeItem('Club.php', 'Ivc_Model/_library---Ivc---Model---Clubs---Club.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+							var file = new WebFXTreeItem('Clubs.php', 'Ivc_Model/_library---Ivc---Model---Clubs---Clubs.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+							var file = new WebFXTreeItem('ClubUsers.php', 'Ivc_Model/_library---Ivc---Model---Clubs---ClubUsers.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+							var file = new WebFXTreeItem('Gateway.php', 'Ivc_Model/_library---Ivc---Model---Clubs---Gateway.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+							var file = new WebFXTreeItem('Gateway.php', 'Ivc_Model/_library---Ivc---Model---Users---Gateway.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+							var file = new WebFXTreeItem('Session.php', 'Ivc_Model/_library---Ivc---Model---Users---Session.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+							var file = new WebFXTreeItem('User.php', 'Ivc_Model/_library---Ivc---Model---Users---User.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+							var file = new WebFXTreeItem('Users.php', 'Ivc_Model/_library---Ivc---Model---Users---Users.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				tree_file.add(file);
+				
+			tree.add(tree_file);
+		
+							var subpackagetree = new WebFXTreeItem('<span class="sub-package">Clubs</span>', '');
+		
+		subpackagetree.openIcon = 'media/images/package.png';
+		subpackagetree.icon = 'media/images/package.png';
+
+			
+					var subpackagetree_classe = new WebFXTreeItem('Class(es)', '');
+			subpackagetree_classe.openIcon = 'media/images/class_folder.png';
+			subpackagetree_classe.icon = 'media/images/class_folder.png';
+			
+							var classe = new WebFXTreeItem('Ivc_Model_Clubs_Brokers', 'Ivc_Model/Clubs/Ivc_Model_Clubs_Brokers.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('Ivc_Model_Clubs_BrokersMapper', 'Ivc_Model/Clubs/Ivc_Model_Clubs_BrokersMapper.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('Ivc_Model_Clubs_Club', 'Ivc_Model/Clubs/Ivc_Model_Clubs_Club.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('Ivc_Model_Clubs_Clubs', 'Ivc_Model/Clubs/Ivc_Model_Clubs_Clubs.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('Ivc_Model_Clubs_ClubUsers', 'Ivc_Model/Clubs/Ivc_Model_Clubs_ClubUsers.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('Ivc_Model_Clubs_Gateway', 'Ivc_Model/Clubs/Ivc_Model_Clubs_Gateway.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+						
+			subpackagetree.add(subpackagetree_classe);
+		
+				
+					var subpackagetree_file = new WebFXTreeItem('File(s)', '');
+			subpackagetree_file.openIcon = 'media/images/folder.png';
+			subpackagetree_file.icon = 'media/images/folder.png';
+			
+							var file = new WebFXTreeItem('BrokersMapper.php', 'Ivc_Model/Clubs/_library---Ivc---Model---Clubs---BrokersMapper.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				subpackagetree_file.add(file);
+					
+			subpackagetree.add(subpackagetree_file);
+			
+	  tree.add(subpackagetree);
+							var subpackagetree = new WebFXTreeItem('<span class="sub-package">Users</span>', '');
+		
+		subpackagetree.openIcon = 'media/images/package.png';
+		subpackagetree.icon = 'media/images/package.png';
+
+			
+					var subpackagetree_classe = new WebFXTreeItem('Class(es)', '');
+			subpackagetree_classe.openIcon = 'media/images/class_folder.png';
+			subpackagetree_classe.icon = 'media/images/class_folder.png';
+			
+							var classe = new WebFXTreeItem('Ivc_Model_Users_Gateway', 'Ivc_Model/Users/Ivc_Model_Users_Gateway.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('Ivc_Model_Users_Session', 'Ivc_Model/Users/Ivc_Model_Users_Session.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('Ivc_Model_Users_User', 'Ivc_Model/Users/Ivc_Model_Users_User.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('Ivc_Model_Users_Users', 'Ivc_Model/Users/Ivc_Model_Users_Users.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+						
+			subpackagetree.add(subpackagetree_classe);
+		
+				
+			
+	  tree.add(subpackagetree);
+	
+document.write(tree);
+}
+</script>
+</div>
+<p class="notes">
+	Generated by 
+	<a href="http://www.phpdoc.org" target="_blank">phpDocumentor <span class="field">1.4.1</span></a>
+</p>
+</body>
+</html>

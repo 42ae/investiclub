@@ -1,0 +1,28 @@
+<?php 
+$attribs = $this->element->getAttribs();
+$options = $this->element->getDecorator('viewScript')->getOptions();
+?>
+<span class="<?= $this->escape($options['class']) ?>">
+<button <?php if ($this->escape($this->element->getName()))
+        echo ' name="' . $this->escape($this->element->getName()) . '"';
+      if ($this->escape($this->element->getId()))
+        echo ' id="' . $this->escape($this->element->getId()) . '"'; 
+      if (isset($attribs['type']))
+        echo ' type="' . $this->escape($attribs['type']) . '"';
+      if (isset($attribs['class']))
+         echo ' class="' . $this->escape($attribs['class']) . '"';
+      if (isset($attribs['style']))
+         echo ' style="' . $this->escape($attribs['style']) . '"';
+
+    $value = $this->element->getValue();
+    if (!empty($value)) {
+    echo ' value="' . $this->escape($this->element->getValue()) . '"';
+    } ?>><?php 
+    
+    if (array_key_exists('image', $attribs))
+            echo '<img src="/assets/img/icons/' .
+                 $this->escape($attribs['image']) .
+                 '.png" alt=""/>'; ?>
+    <?= $this->escape($this->element->getLabel()); ?>
+</button>
+</span>

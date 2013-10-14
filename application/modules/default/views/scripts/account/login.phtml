@@ -1,0 +1,16 @@
+<?= $this->headTitle($this->translate('Login')) ?>
+
+<form id="login" action="<?= $this->form->getAction() ?>" method="<?= $this->form->getMethod(); ?>" enctype="<?= $this->form->getEnctype(); ?>">
+    <h1><?= $this->translate('LOGIN') ?></h1>
+    <?= $this->messages; ?>
+    <fieldset id="inputs">
+        <?= $this->form->email->renderViewHelper(); ?>   
+        <?= $this->form->password->renderViewHelper(); ?>
+        <?= $this->form->remember_me->render(); ?>
+    </fieldset>
+    <fieldset id="actions">
+        <?= $this->form->submit->render(); ?>
+        <a href="<?= $this->url(array('controller' => 'account', 'action' => 'forgot-password'), 'default', true); ?>"><?= $this->translate('FORGOT_PASSWORD') ?></a>
+        <a href="<?= $this->url(array('controller' => 'account', 'action' => 'signup'), 'default', true); ?>"><?= $this->translate('CREATE_AN_ACCOUNT') ?></a>
+    </fieldset>
+</form>

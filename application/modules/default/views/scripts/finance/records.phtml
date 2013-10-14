@@ -1,0 +1,233 @@
+<?php $this->headTitle('Financial Records'); ?>
+<?php $this->jQuery()->uiEnable() ?>
+<center><h1><?= 'Periode du <span id="start-date" style="font-size:18px;">' . $this->balanceSheet['startDate'] . '</span> au <span id="end-date" style="font-size:18px;">' . $this->balanceSheet['endDate'] . '</span>' ?></h1></center>
+
+<div id="tabs">
+    <ul>
+        <?php foreach ($this->balanceSheetList as $year => $dates): ?>
+        <li><a href="#tabs-<?= $year ?>"><?= $year ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php foreach ($this->balanceSheetList as $year => $dates): ?>
+    <div id="tabs-<?= $year ?>">
+    	<?php foreach ($dates as $info): ?>
+        <button id="<?= $info['date'] ?>" style="<?php if ($info['status'] == 'validation' OR $info['status'] == 'firstValidation') echo 'color:green;border-color:green;'; if ($info['status'] == 'closed') echo 'color:gray;border-color:gray;'; ?>"><?= $info['date'] ?></button>
+        <?php endforeach; ?>
+    </div>
+    <?php endforeach; ?>
+</div>
+
+<?= $this->notice()->get($this->messages); ?>
+
+<div id="options-list" style="display: none;">
+ <div style="width: 50%; margin: 0px auto; background-color: #F2F5F7; border: 1px solid #D5DCE8; height: 50px; margin-bottom: 20px; padding: 10px; width: 330px; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px;">
+	<img src="/assets/img/icons/valid-period.png" style="float:left; margin-right:10px"/>
+	<strong><a href="#">Valider la periode</a></strong><br />
+	En validant la periode, vous confirmer l'état comptable de votre club pour cette periode.
+ </div>
+</div>
+<div id="records-list"></div>
+<div id="balance-sheets-list" style="margin: 20px auto; width: 500px"></div>
+
+<div id="add-contribution" style="display:none"></div>
+<div id="edit-contribution" style="display:none"></div>
+<div id="delete-contribution" style="display:none"></div>
+<div id="send-reminder" style="display:none"></div>
+
+<div class="modal"><!-- Ajax Spinner --></div>
+
+
+<?php 
+$revaluation = array();
+foreach ($this->treasury['events'] as $key => $value) {
+    if ($value['ope'] == 'reevaluation') {
+        $revaluation[$key] = $value;
+        unset($this->treasury['events'][$key]);
+    }
+}
+?>
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+//<script>
+
+$(document).on({
+    ajaxStart: function() { 
+        $("body").addClass("loading"); 
+    },
+    ajaxStop: function() {
+    	$("body").removeClass("loading"); 
+    }    
+});
+
+
+google.load('visualization', '1', {packages:['table']});
+google.setOnLoadCallback(drawTable);
+google.setOnLoadCallback(balanceSheetTable);
+
+function drawTable() {
+	<?php $model = array('members'       => $this->members, 
+						 'treasury'      => $this->treasury, 
+						 'balanceSheet'  => $this->balanceSheet, 
+						 'acl'           => $this->acl) ?>
+	<?php $partial = $this->partial('finance/partials/_records-table.phtml', 'default', $model) ?>
+    var data = new google.visualization.DataTable(<?= $partial ?>);
+    var table = new google.visualization.Table(document.getElementById('records-list'));
+    table.draw(data, {allowHtml: true, showRowNumber: true});
+} 
+
+function balanceSheetTable() {
+	<?php $model = array('members'       => $this->members, 
+						 'treasury'      => $this->treasury, 
+						 'revaluation'   => $revaluation, 
+						 'balanceSheet'  => $this->balanceSheet, 
+						 'acl'           => $this->acl) ?>
+	<?php $partial = $this->partial('finance/partials/_balance-sheets-table.phtml', 'default', $model) ?>
+    var data2 = new google.visualization.DataTable(<?= $partial ?>);
+    var table2 = new google.visualization.Table(document.getElementById('balance-sheets-list'));
+    table2.draw(data2, {allowHtml: true, showRowNumber: false, width: "50%"});
+    table2.setSelection([{row:data2.getNumberOfRows() - 1, column:null}]);
+} 
+//<script>
+//We'll encapsulate our .qtip() call in your .live() handler method
+$('.tip').live('mouseover', function(event) {
+   // Bind the qTip within the event handler
+   $(this).qtip({
+      overwrite: false, // Make sure the tooltip won't be overridden once created
+      style: {
+          classes: "ui-tooltip-dark ui-tooltip-shadow"
+      },
+      position: {
+              my: "top middle",  // Position my top left...
+              at: "bottom middle" // at the bottom right of...
+      },
+      show: {
+         event: event.type, // Use the same show event as the one that triggered the event handler
+         ready: true // Show the tooltip as soon as its bound, vital so it shows up the first time you hover!
+      }
+   }, event); // Pass through our original event to qTip
+})
+// Store our title attribute in 'oldtitle' attribute instead
+.each(function(i) {
+   $.attr(this, 'oldtitle', $.attr(this, 'title'));
+   this.removeAttribute('title');
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+//<script>
+    $( "#dialog:ui-dialog" ).dialog( "destroy" );
+    var types = {error:"error", warning:"warning", success:"success"};
+    var noticeName;
+    var noticeTop = $( "#top-notice" );
+
+    function updateNotice(n)
+    {
+        clearNotice();
+        content = "";
+        $.each(n.content, function(key, value) {
+			content += "<p>" + value + "</p>";
+        });
+        
+        if (n.type == "success") {
+        	noticeTop.stop(true, true).html(content).addClass(n.type).fadeIn(2000);
+//        	noticeTop.queue(function() { 
+//				setTimeout(function(){ 
+//					noticeTop.dequeue(); 
+//				}, 5500 );
+//			});
+//        	noticeTop.fadeOut("fast");
+        } else {
+	    	noticeName.html(content).addClass(n.type).show("slow");
+        }
+    }
+
+    function clearNotice()
+    {
+    	noticeTop.hide().empty().removeClass( "error warning success" );
+    }
+
+    function drawAjaxTable(response)
+    {
+	     var data = new google.visualization.DataTable(response);
+	     var table = new google.visualization.Table(document.getElementById('records-list'));
+	     table.draw(data, {allowHtml: true, showRowNumber: true});
+	     $( ".google-visualization-table-table" ).css("width", "100%");
+	 }
+
+    function drawAjaxTableBlanaceSheet(response)
+    {
+	     var data = new google.visualization.DataTable(response);
+	     var table = new google.visualization.Table(document.getElementById('balance-sheets-list'));
+	     table.draw(data, {allowHtml: true, showRowNumber: true});
+	     $( ".google-visualization-table-table" ).css("width", "100%");
+	}
+
+	function toggleValidPeriodButton(status, name)
+	{
+		if (status == 'firstValidation') {
+			data = "/finance/records/name/" + name;
+			$(" #options-list ").show();
+			$(" #options-list a").attr('href', data);
+		} else {
+			$(" #options-list ").hide();
+		}
+	} 
+
+    function getRecordsTable(date, notice)
+    {
+        $.get("/ajax/finance/records/date/" + date + "/format/json", function(data) {
+        	$( "#records-list" ).fadeOut(500, function() {
+        		google.setOnLoadCallback(drawAjaxTable(data.balancesheet.records));
+        		google.setOnLoadCallback(drawAjaxTableBlanaceSheet(data.balancesheet.table));
+        		toggleValidPeriodButton(data.balancesheet.status, data.balancesheet.name);
+        		$( "#start-date" ).html(data.balancesheet.start);
+        		$( "#end-date" ).html(data.balancesheet.end);
+        		clearNotice();
+        		
+  				$( "#records-list" ).stop(true, true).hide().fadeIn(2000);
+    			if (typeof notice !== 'undefined') {
+    				updateNotice(notice);
+    			}
+    		});
+        });
+    }
+
+	// jquery tabs for balancesheet dates
+    $( "#tabs button" ).button().click(function(e) {
+    	e.preventDefault();
+    	getRecordsTable($(this).attr('id'));
+    });
+
+    $( "#tabs" ).tabs();
+    $( "#tabs" ).css('margin-bottom', '20px');
+
+
+    $.ajaxSetup({
+        error: function handleXhrError(jqXHR, textStatus, errorThrown) {
+            // @toto: test if we correctly handle all error types (404, 500, 401...) 
+            var response = jQuery.parseJSON(jqXHR.responseText);
+			noticeName = noticeTop;
+            clearNotice();
+            console.log(jqXHR.responseText);
+            //updateNotice("<p>" + response.message + "</p>", "error");
+            alert(response.message);
+        }
+    });
+    
+    // add remove button support
+    $.extend($.ui.dialog.prototype, { 
+        "addbutton": function(buttonName, func) {    
+            var buttons = this.element.dialog("option", "buttons"); 
+            buttons[buttonName] = func; 
+            this.element.dialog("option", "buttons", buttons); 
+        }
+    });
+    $.extend($.ui.dialog.prototype, { 
+        "removebutton": function(buttonName) {    
+            var buttons = this.element.dialog("option", "buttons"); 
+            delete buttons[buttonName]; 
+            this.element.dialog("option", "buttons", buttons); 
+        } 
+    });
+
+<?php $this->jQuery()->onLoadCaptureEnd() ?>

@@ -1,0 +1,84 @@
+<?php $this->headTitle('User Preferences'); ?>
+
+<?php $this->headLink()->appendStylesheet('/assets/css/jquery-ui-1.7.3.custom.css'); ?>
+<?php $this->jQuery()->addJavascriptFile('http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js'); ?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+$().ready(function() {
+	$.validator.addMethod(
+	        "regex",
+	        function(value, element, regexp) {
+	            var check = false;
+	            var re = new RegExp(regexp);
+	            return this.optional(element) || re.test(value);
+	        },
+	        "Please check your input."
+	);
+	$("#formEdit").validate({
+		rules: {
+			last_name: "required",
+			first_name: { required: true },
+			email: {
+				required: true,
+				email: true
+			},
+			gender: { required: false },
+			date_of_birth: {
+				required: false
+			},
+			occupation: { required: false },
+			address: { required: false },
+			city: { required: false },
+			postal_code: { required: false },
+			country: { required: false },
+			"phone_home-number": { required: false },
+			"phone_mobile-number": { required: true },
+			current_password: {
+				required: function(element) {
+			        return ("#password:filled" || "#confirm_password:filled");
+			      },
+				minlength: 6
+			},
+			password: {
+				required: "#current_password:filled",
+				minlength: 6
+			},
+			confirm_password: {
+				required: "#current_password:filled",
+				minlength: 6,
+				equalTo: "#password"
+			}
+		},
+		messages: {
+			first_name: "Please enter your firstname",
+			last_name: "Please enter your lastname",
+			password: {
+				required: "Please provide a password",
+				minlength: "Your password must be at least 6 characters long"
+			},
+			confirm_password: {
+				required: "Please provide a password",
+				minlength: "Your password must be at least 6 characters long",
+				equalTo: "Please enter the same password as above"
+			},
+			email: "Please enter a valid email address"
+		}
+	});
+	$("#phone_mobile-number").rules("add", { regex: "^[\\s\\d\(\)-]{1,20}$"});
+	
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php echo $this->notice()->get($this->messages); ?>
+<?php $this->form->setAction($this->url()); ?>
+<?php $this->form->setAttrib('id', 'formEdit'); ?>
+<form id="<?= $this->escape($this->form->getId()); ?>" class="<?= $this->escape($this->form->getAttrib('class')); ?>" action="<?= $this->escape($this->form->getAction()); ?>" method="<?= $this->escape($this->form->getMethod()); ?>" enctype="<?= $this->escape($this->form->getEnctype()); ?>">
+ <?= $this->form->token->renderViewHelper() ?>
+  <table>     	
+  <?= $this->form->dgGeneralInformation; ?>
+  <tbody><tr><td colspan="2"><hr></td></tr></tbody>
+  <?= $this->form->dgContactInformation; ?>
+  <tbody><tr><td colspan="2"><hr></td></tr></tbody>
+  <?= $this->form->dgPhone; ?>
+  <tbody><tr><td colspan="2"><hr></td></tr></tbody>
+  <?= $this->form->dgSubmit; ?>
+  </table>
+ </form>

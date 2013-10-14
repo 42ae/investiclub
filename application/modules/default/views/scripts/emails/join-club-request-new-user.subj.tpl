@@ -1,0 +1,1 @@
+<?= $this->senderFirstName ?> <?= $this->senderLastName ?> invite you to join the club <?php echo $this->clubName ?>

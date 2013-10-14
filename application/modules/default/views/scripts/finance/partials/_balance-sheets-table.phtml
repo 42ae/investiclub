@@ -1,0 +1,35 @@
+{
+  "cols": [
+    {"id": "datebalancesheet", "label": "Date", "type": "date"},
+    {"id": "assets", "label": "Assets", "type": "string"},
+    {"id": "liabilities", "label": "Liabilities", "type": "string"},
+    {"id": "description", "label": "Description", "type": "string"}
+    ],
+   "rows": [
+<?php foreach ($this->revaluation as $date => $data): ?>
+     {"c":[
+         <?php $date = new Zend_Date(substr($date, 0, 10), Zend_Date::ISO_8601, 'en_US') ?>
+       {"v":"new Date(<?= $date->toString(Zend_Date::TIMESTAMP) ?>)", "f":"<?= $date->toString(Zend_Date::DATE_SHORT) ?>"},
+       {"v":"<?= '<img src=\"' . $this->baseUrl('/assets/img/icons/portfolio.png') . '\" alt=\"Portfolio\" /> ' . round($data['new_pf'], 2) . 
+                 ' + <img src=\"' . $this->baseUrl('/assets/img/icons/bank.png') . '\" alt=\"Balance\" /> ' . round($data['solde'], 2) . 
+                 '<hr style=\"margin: 4px 0; padding: 0\">' .
+                 (round(($data['new_pf'] + $data['solde']), 2)) ?>", "p":{"className": "center-text google-visualization-table-td"}},
+       {"v":"<?= '<img src=\"' . $this->baseUrl('/assets/img/icons/portfolio.png') . '\" alt=\"Portfolio\" /> ' . round($data['old_capital'], 2) . 
+                 ' + <img src=\"' . $this->baseUrl('/assets/img/icons/bank.png') . '\" alt=\"Balance\" /> ' . round($data['value'], 2) . 
+                 '<hr style=\"margin: 4px 0; padding: 0\">' .
+                 round($data['new_capital'], 2) ?>", "p":{"className": "center-text google-visualization-table-td"}},
+       {"v":"<?= $data['comment'] ?>"}
+       ]},
+<?php endforeach; ?>
+     {"c":[
+       {"v":"", "f":""},
+       {"v":"<?= '<img src=\"' . $this->baseUrl('/assets/img/icons/portfolio.png') . '\" alt=\"Portfolio\" /> ' . round($this->treasury['pf'], 2) . 
+		         ' + <img src=\"' . $this->baseUrl('/assets/img/icons/bank.png') . '\" alt=\"Balance\" /> ' . round($this->treasury['solde'], 2) .		
+                 '<hr style=\"margin: 4px 0; padding: 0\">' .
+                 round(($this->treasury['pf'] + $this->treasury['solde']), 2) ?>", "p":{"className": "center-text google-visualization-table-td"}},
+       {"v":"<?= '<img src=\"' . $this->baseUrl('/assets/img/icons/portfolio.png') . '\" alt=\"Portfolio\" /> ' . round($this->treasury['capital'], 2) ?>", "p":{"className": "center-text google-visualization-table-td"}},
+       {"v":"Evaluation"}
+       ]}
+
+  ]
+}

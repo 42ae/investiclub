@@ -1,0 +1,34 @@
+{
+  "cols": [
+    {"id": "fullname",     "label": "Nom",    "type": "string"},
+    {"id": "last-contribution-date",  "label": "Date de la dernière cotisation",  "type": "date"},
+    {"id": "last-contribution",         "label": "Dernière cotisation",         "type": "number"},
+    {"id": "status",       "label": "Status",       "type": "string"}<?php 
+    if ($this->balanceSheet['status'] !== 'closed'): ?>,
+    {"id": "dashboard",    "label": "Tableau de bord",    "type": "number"}
+    <?php endif; ?>],
+   "rows": [
+<?php $i = 0; ?>
+<?php foreach ($this->contributions as $memberId => $value): ?>
+<?php   $gateway = new Ivc_Model_Clubs_Gateway(); $member = $gateway->fetchMemberById($memberId); ?>
+     {"c":[
+       {"v": "<?= $this->members()->getProfileLink($member) ?>"},
+       <?php if (null == $this->contributions[$member->member_id]['lastContribution']) 
+               $lastContributionDate = null;
+             else $lastContributionDate = new Zend_Date($this->contributions[$member->member_id]['lastContribution'], Zend_Date::ISO_8601, 'en_US');
+       ?>
+       <?php if ($lastContributionDate): ?>
+       {"v":"new Date(<?= $lastContributionDate->toString(Zend_Date::TIMESTAMP) ?>)", "f":"<?= $lastContributionDate->toString("MMMM, dd YYYY") ?>"},
+       <?php else: ?>
+       {"v":"", "f":""},
+       <?php endif; ?>
+       {"v":<?= $this->contributions[$member->member_id]['value'] ?>, "f":"<?= $this->contributions[$member->member_id]['value'] . '€' ?>", "p":{"className": "center-text google-visualization-table-td"}},
+       {"v":"<?= $this->contributions()->getStatus($this->contributions[$member->member_id], $member); ?>", "p":{"style": "background-color:<?= ($this->contributions[$member->member_id]['status'] == 'paid') ? '#BFDF99' : '#FFBCAF' ?>;"}}
+<?php if ($this->balanceSheet['status'] !== 'closed'): ?>
+       ,{"v":"<?= $this->contributions()->getDashboard($this->balanceSheet, $this->contributions[$member->member_id], $member, $this->acl); ?>", "p":{"className": "center-text google-visualization-table-td"}}
+<?php endif; ?>
+       ]}<?= ($i++ != count($this->contributions) - 1) ? ',' : ''; ?>
+
+<?php endforeach; ?>
+  ]
+}

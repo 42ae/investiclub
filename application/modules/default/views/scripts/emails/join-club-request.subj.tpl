@@ -1,0 +1,1 @@
+InvestiClub - Club invitation request in <?= $this->clubName ?>

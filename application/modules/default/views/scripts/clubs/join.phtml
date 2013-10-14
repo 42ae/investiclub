@@ -1,0 +1,38 @@
+<?php $this->headTitle('Join a Club'); ?>
+
+<p>Il est facilement possible de rejoindre un club en faisant une simple recherche ci-dessous et en cliquant sur le bouton "Envoyer la requête". <br />
+Enfin, vous serez ajouté au club une fois que l'administrateur aura conformé votre status de membre.</p>
+<!--<p>In this section you can easily join your club by finding it using the search tool below. Once you have found it, click on the "Send Request" button to ask for a club invitation.<br />-->
+<!--Finally, your request will be sent to the club administrator for approval.</p>-->
+<br />
+<?= $this->form; ?>
+<br />
+
+
+<?php if ($this->results): ?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+      google.load('visualization', '1', {packages:['table']});
+      google.setOnLoadCallback(drawTable);
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('string', 'Club Name');
+        data.addColumn('string', 'Club Registration Date');
+        data.addColumn('string', '');
+        data.addRows([
+		<?php foreach ($this->results as $club): ?>
+          ['<?= $club->country ?>',
+		  	'<?= $club->name ?>',
+		  	'<?= $club->registration_date ?>',
+		  	'<span class="buttons"><button style="font-size:12px" class="confirmation" type="submit" id="submit" name="submit" onclick="location.href=\'<?= $this->url(array('controller' => 'clubs', 'action' => 'join', 'member-join-request' => $club->club_id), 'default', true) ?>\'">Send a request</button></span>',
+		  ],
+        <?php endforeach; ?>
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('club-search-results'));
+        table.draw(data, {showRowNumber: true, allowHtml: true});
+      }
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<div id="club-search-results"></div>
+<?php endif; ?>

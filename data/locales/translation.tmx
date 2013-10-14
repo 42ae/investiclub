@@ -1,0 +1,621 @@
+<?xml version="1.0" ?>
+<!DOCTYPE tmx SYSTEM "tmx14.dtd">
+<tmx version="1.4">
+   <header creationtoolversion="1.0.0" datatype="winres" segtype="sentence"
+           adminlang="en" srclang="en" o-tmf="abc"
+           creationtool="ZS8">
+   </header>
+   <body>
+   
+<!-- NAVIGATION -->
+   
+        <tu tuid='NAV_HOME'>
+            <tuv xml:lang="en"><seg>Home</seg></tuv>
+            <tuv xml:lang="fr"><seg>Accueil</seg></tuv>
+            <tuv xml:lang="uk"><seg>Home</seg></tuv>
+        </tu>
+        <tu tuid='NAV_OUR_SOLUTION'>
+            <tuv xml:lang="en"><seg>Our Solution</seg></tuv>
+            <tuv xml:lang="fr"><seg>Notre solution</seg></tuv>
+            <tuv xml:lang="uk"><seg>Our Solution</seg></tuv>
+        </tu>
+        <tu tuid='NAV_NEWS'>
+            <tuv xml:lang="en"><seg>News</seg></tuv>
+            <tuv xml:lang="fr"><seg>Informations</seg></tuv>
+            <tuv xml:lang="uk"><seg>News</seg></tuv>
+        </tu>
+        <tu tuid='NAV_CONTACT'>
+            <tuv xml:lang="en"><seg>Contact Us</seg></tuv>
+            <tuv xml:lang="fr"><seg>Contactez-nous</seg></tuv>
+            <tuv xml:lang="uk"><seg>Contact Us</seg></tuv>
+        </tu>
+        <tu tuid='NAV_DASHBOARD'>
+            <tuv xml:lang="en"><seg>Dashboard</seg></tuv>
+            <tuv xml:lang="fr"><seg>Tableau de bord</seg></tuv>
+            <tuv xml:lang="uk"><seg>Dashboard</seg></tuv>
+        </tu>
+        <tu tuid='NAV_CLUBS'>
+            <tuv xml:lang="en"><seg>Club</seg></tuv>
+            <tuv xml:lang="fr"><seg>Club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Club</seg></tuv>
+        </tu>
+        <tu tuid='NAV_CLUBS_JOIN'>
+            <tuv xml:lang="en"><seg>Join a club</seg></tuv>
+            <tuv xml:lang="fr"><seg>Rejoindre un club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Join a club</seg></tuv>
+        </tu>
+        <tu tuid='NAV_CLUBS_CREATE'>
+            <tuv xml:lang="en"><seg>Create a club</seg></tuv>
+            <tuv xml:lang="fr"><seg>Créer un club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Create a club</seg></tuv>
+        </tu>
+        <tu tuid='NAV_CLUBS_INFO'>
+            <tuv xml:lang="en"><seg>My club</seg></tuv>
+            <tuv xml:lang="fr"><seg>Mon club</seg></tuv>
+            <tuv xml:lang="uk"><seg>My club</seg></tuv>
+        </tu>
+        <tu tuid='NAV_CLUBS_PERFORMANCES'>
+            <tuv xml:lang="en"><seg>Performances</seg></tuv>
+            <tuv xml:lang="fr"><seg>Performances</seg></tuv>
+            <tuv xml:lang="uk"><seg>Performances</seg></tuv>
+        </tu>
+        <tu tuid='NAV_CLUBS_SETTINGS'>
+            <tuv xml:lang="en"><seg>Club settings</seg></tuv>
+            <tuv xml:lang="fr"><seg>Paramètres du club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Club settings</seg></tuv>
+        </tu>
+        <tu tuid='NAV_MEMBERS'>
+            <tuv xml:lang="en"><seg>Members</seg></tuv>
+            <tuv xml:lang="fr"><seg>Membres</seg></tuv>
+            <tuv xml:lang="uk"><seg>Members</seg></tuv>
+        </tu>
+        <tu tuid='NAV_MEMBERS_LIST'>
+            <tuv xml:lang="en"><seg>Members list</seg></tuv>
+            <tuv xml:lang="fr"><seg>Liste des membres</seg></tuv>
+            <tuv xml:lang="uk"><seg>Members list</seg></tuv>
+        </tu>
+        <tu tuid='NAV_MEMBERS_SHARE'>
+            <tuv xml:lang="en"><seg>Shares</seg></tuv>
+            <tuv xml:lang="fr"><seg>Parts</seg></tuv>
+            <tuv xml:lang="uk"><seg>Shares</seg></tuv>
+        </tu>
+        <tu tuid='NAV_MEMBERS_CONTRIBUTION'>
+            <tuv xml:lang="en"><seg>Contribution</seg></tuv>
+            <tuv xml:lang="fr"><seg>Cotisation</seg></tuv>
+            <tuv xml:lang="uk"><seg>Contribution</seg></tuv>
+        </tu>
+        <tu tuid='NAV_FINANCE'>
+            <tuv xml:lang="en"><seg>Finance</seg></tuv>
+            <tuv xml:lang="fr"><seg>Finance</seg></tuv>
+            <tuv xml:lang="uk"><seg>Finance</seg></tuv>
+        </tu>
+        <tu tuid='NAV_FINANCE_LIST'>
+            <tuv xml:lang="en"><seg>Portfolio</seg></tuv>
+            <tuv xml:lang="fr"><seg>Portefeuille</seg></tuv>
+            <tuv xml:lang="uk"><seg>Portfolio</seg></tuv>
+        </tu>
+        <tu tuid='NAV_FINANCE_GENERAL_JOURNAL'>
+            <tuv xml:lang="en"><seg>General Journal</seg></tuv>
+            <tuv xml:lang="fr"><seg>Journal du club</seg></tuv>
+            <tuv xml:lang="uk"><seg>General Journal</seg></tuv>
+        </tu>
+        <tu tuid='NAV_CHARTS'>
+            <tuv xml:lang="en"><seg>Charts</seg></tuv>
+            <tuv xml:lang="fr"><seg>Graphiques</seg></tuv>
+            <tuv xml:lang="uk"><seg>Charts</seg></tuv>
+        </tu>
+        <tu tuid='NAV_DOCUMENTS'>
+            <tuv xml:lang="en"><seg>Documents</seg></tuv>
+            <tuv xml:lang="fr"><seg>Documents</seg></tuv>
+            <tuv xml:lang="uk"><seg>Documents</seg></tuv>
+        </tu>
+        
+<!-- USERS NAVIGATION -->
+        
+        <tu tuid='NAV_USERS_MY_ACCOUNT'>
+            <tuv xml:lang="en"><seg>My Account</seg></tuv>
+            <tuv xml:lang="fr"><seg>Mon Compte</seg></tuv>
+            <tuv xml:lang="uk"><seg>My Account</seg></tuv>
+        </tu>
+        <tu tuid='NAV_USERS_MY_PROFILE'>
+            <tuv xml:lang="en"><seg>My Profile</seg></tuv>
+            <tuv xml:lang="fr"><seg>Mon profil</seg></tuv>
+            <tuv xml:lang="uk"><seg>My Profile</seg></tuv>
+        </tu>
+        <tu tuid='NAV_USERS_EDIT'>
+            <tuv xml:lang="en"><seg>Edit my profile</seg></tuv>
+            <tuv xml:lang="fr"><seg>Éditer mon profil</seg></tuv>
+            <tuv xml:lang="uk"><seg>Edit my profile</seg></tuv>
+        </tu>
+        <tu tuid='NAV_USERS_PRIVACY'>
+            <tuv xml:lang="en"><seg>Privacy settings</seg></tuv>
+            <tuv xml:lang="fr"><seg>Paramètres de confidentialité</seg></tuv>
+            <tuv xml:lang="uk"><seg>Privacy settings</seg></tuv>
+        </tu>
+        <tu tuid='NAV_USERS_SETTINGS'>
+            <tuv xml:lang="en"><seg>Account settings</seg></tuv>
+            <tuv xml:lang="fr"><seg>Paramètres du compte</seg></tuv>
+            <tuv xml:lang="uk"><seg>Account settings</seg></tuv>
+        </tu>
+        <tu tuid='NAV_USERS_MESSAGES'>
+            <tuv xml:lang="en"><seg>Messages</seg></tuv>
+            <tuv xml:lang="fr"><seg>Messages</seg></tuv>
+            <tuv xml:lang="uk"><seg>Messages</seg></tuv>
+        </tu>
+
+<!-- HEADER -->
+        
+        <tu tuid='CREATE_AN_ACCOUNT'>
+            <tuv xml:lang="en"><seg>Create an account</seg></tuv>
+            <tuv xml:lang="fr"><seg>Créer un compte</seg></tuv>
+            <tuv xml:lang="uk"><seg>Register</seg></tuv>
+        </tu>
+        <tu tuid='LOGIN'>
+            <tuv xml:lang="en"><seg>Log In</seg></tuv>
+            <tuv xml:lang="fr"><seg>Se connecter</seg></tuv>
+            <tuv xml:lang="uk"><seg>Log In</seg></tuv>
+        </tu>
+        <tu tuid='LOGOUT'>
+            <tuv xml:lang="en"><seg>Log Out</seg></tuv>
+            <tuv xml:lang="fr"><seg>Se déconnecter</seg></tuv>
+            <tuv xml:lang="uk"><seg>Log Out</seg></tuv>
+        </tu>
+		<tu tuid='SETTINGS'>
+            <tuv xml:lang="en"><seg>Settings</seg></tuv>
+            <tuv xml:lang="fr"><seg>Paramètres</seg></tuv>
+            <tuv xml:lang="uk"><seg>Settings</seg></tuv>
+        </tu>
+		<tu tuid='MESSAGES'>
+            <tuv xml:lang="en"><seg>Messages</seg></tuv>
+            <tuv xml:lang="fr"><seg>Messages</seg></tuv>
+            <tuv xml:lang="uk"><seg>Messages</seg></tuv>
+        </tu>
+		<tu tuid='PROFILE'>
+            <tuv xml:lang="en"><seg>Profile</seg></tuv>
+            <tuv xml:lang="fr"><seg>Profil</seg></tuv>
+            <tuv xml:lang="uk"><seg>Profile</seg></tuv>
+        </tu>
+		<tu tuid='DASHBOARD'>
+            <tuv xml:lang="en"><seg>Dashboard</seg></tuv>
+            <tuv xml:lang="fr"><seg>Tableau de bord</seg></tuv>
+            <tuv xml:lang="uk"><seg>Dashboard</seg></tuv>
+        </tu>
+		<tu tuid='MY_ACCOUNT'>
+            <tuv xml:lang="en"><seg>My Account</seg></tuv>
+            <tuv xml:lang="fr"><seg>Mon Compte</seg></tuv>
+            <tuv xml:lang="uk"><seg>My Account</seg></tuv>
+        </tu>
+        
+<!-- FORM PLACEHOLDER --> 
+
+        <tu tuid='FORM_PLACEHOLDER_PASSWORD'>
+            <tuv xml:lang="en"><seg>Your password</seg></tuv>
+            <tuv xml:lang="fr"><seg>Votre mot de passe</seg></tuv>
+            <tuv xml:lang="uk"><seg>Your password</seg></tuv>
+        </tu>
+        <tu tuid='FORM_PLACEHOLDER_EMAIL'>
+            <tuv xml:lang="en"><seg>email@example.com</seg></tuv>
+            <tuv xml:lang="fr"><seg>Email</seg></tuv>
+            <tuv xml:lang="uk"><seg>email@example.com</seg></tuv>
+        </tu>
+
+<!-- FORM VALIDATION -->        
+        
+        <tu tuid='isEmpty'>
+            <tuv xml:lang="en"><seg>This field is required and can't be empty.</seg></tuv>
+            <tuv xml:lang="fr"><seg>Ce champs est requis.</seg></tuv>
+            <tuv xml:lang="uk"><seg>This field is required and can't be empty.</seg></tuv>
+        </tu>
+        <tu tuid='notYopmail'>
+            <tuv xml:lang="en"><seg>E-Mail Error</seg></tuv>
+            <tuv xml:lang="fr"><seg>Yopmail LOL</seg></tuv>
+            <tuv xml:lang="uk"><seg>This field is required and can't be empty</seg></tuv>
+        </tu>
+
+<!-- LOGIN FORM -->        
+        
+        <tu tuid='REMEMBER_ME'>
+            <tuv xml:lang="en"><seg>Remember me</seg></tuv>
+            <tuv xml:lang="fr"><seg>Se souvenir de moi</seg></tuv>
+            <tuv xml:lang="uk"><seg>Remember me</seg></tuv>
+        </tu>
+        <tu tuid='notYopmail'>
+            <tuv xml:lang="en"><seg>E-Mail Error</seg></tuv>
+            <tuv xml:lang="fr"><seg>Yopmail LOL</seg></tuv>
+            <tuv xml:lang="uk"><seg>This field is required and can't be empty</seg></tuv>
+        </tu>
+        
+<!-- LOGIN PAGE -->
+        <tu tuid='FORGOT_PASSWORD'>
+            <tuv xml:lang="en"><seg>Forgot your password?</seg></tuv>
+            <tuv xml:lang="fr"><seg>Mot de passe oublié ?</seg></tuv>
+            <tuv xml:lang="uk"><seg>Forgot your password?</seg></tuv>
+        </tu>
+        
+<!-- HOME -->
+        
+        <tu tuid='HOME_TITLE'>
+            <tuv xml:lang="en"><seg>Powerful Tools for Investment Clubs</seg></tuv>
+            <tuv xml:lang="fr"><seg>Application en ligne pour Club d'Investissement</seg></tuv>
+            <tuv xml:lang="uk"><seg>Powerful Tools for Investment Clubs</seg></tuv>
+        </tu>
+        <tu tuid='ENTER_YOUR_EMAIL_MSG'>
+            <tuv xml:lang="en"><seg>Enter your email address and we’ll let you know as soon as it’s ready.</seg></tuv>
+            <tuv xml:lang="fr"><seg>Entrez votre email et nous vous tiendrons informé dès ce ce sera prêt.</seg></tuv>
+            <tuv xml:lang="uk"><seg>Enter your email address and we’ll let you know as soon as it’s ready.</seg></tuv>
+        </tu>
+        <tu tuid='ENTER_YOUR_EMAIL_HERE'>
+            <tuv xml:lang="en"><seg>Enter your email here</seg></tuv>
+            <tuv xml:lang="fr"><seg>Entrez votre e-mail</seg></tuv>
+            <tuv xml:lang="uk"><seg>Enter your email here</seg></tuv>
+        </tu>        
+        <tu tuid='KEEP_ME_UPDATED'>
+            <tuv xml:lang="en"><seg>Keep Me Updated!</seg></tuv>
+            <tuv xml:lang="fr"><seg>Envoyer</seg></tuv>
+            <tuv xml:lang="uk"><seg>Keep Me Updated!</seg></tuv>
+        </tu> 
+        <tu tuid='PRIVACY_MSG'>
+            <tuv xml:lang="en"><seg>We respect your privacy and we will never give your email to any third party.</seg></tuv>
+            <tuv xml:lang="fr"><seg>Nous tenons à respecter votre vie privée. Nous ne donnerons jamais votre email à un tiers.</seg></tuv>
+            <tuv xml:lang="uk"><seg>We respect your privacy and we will never give your email to any third party.</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER1_TITLE1'>
+            <tuv xml:lang="en"><seg>I need...</seg></tuv>
+            <tuv xml:lang="fr"><seg>J'ai besoin...</seg></tuv>
+            <tuv xml:lang="uk"><seg>I need...</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER1_TITLE2'>
+            <tuv xml:lang="en"><seg>an online accounting application to</seg></tuv>
+            <tuv xml:lang="fr"><seg>d'une application en ligne pour gérer</seg></tuv>
+            <tuv xml:lang="uk"><seg>an online accounting application to</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER1_TITLE3'>
+            <tuv xml:lang="en"><seg>manage my investment club.</seg></tuv>
+            <tuv xml:lang="fr"><seg>la comptabilité de mon club.</seg></tuv>
+            <tuv xml:lang="uk"><seg>manage my investment club.</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER1_MSG'>
+            <tuv xml:lang="en"><seg>InvestiClub will allow you to easily manage your investment club: members, accounting, portfolio and communication, we provide all the tools you need to make your club successful.</seg></tuv>
+            <tuv xml:lang="fr"><seg>InvestiClub vous permet de gérer de façon facile votre club d'investissement : membres, comptabilité, portefeuille et communication interne, nous vous proposons tous les outils nécessaire pour la réussite de votre club.</seg></tuv>
+            <tuv xml:lang="uk"><seg>InvestiClub will allow you to easily manage your investment club: members, accounting, portfolio and communication, we provide all the tools you need to make your club successful.</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER1_MSG_BOLD'>
+            <tuv xml:lang="en"><seg>Enter your email above and we will keep you updated!</seg></tuv>
+            <tuv xml:lang="fr"><seg>Entrez votre email ci-dessus et nous vous tiendrons informé !</seg></tuv>
+            <tuv xml:lang="uk"><seg>Enter your email above and we will keep you updated!</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER2_TITLE1'>
+            <tuv xml:lang="en"><seg>I need...</seg></tuv>
+            <tuv xml:lang="fr"><seg>J'ai besoin...</seg></tuv>
+            <tuv xml:lang="uk"><seg>I need...</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER2_TITLE2'>
+            <tuv xml:lang="en"><seg>a place where all club members</seg></tuv>
+            <tuv xml:lang="fr"><seg>d'un endroit ou tous les membres</seg></tuv>
+            <tuv xml:lang="uk"><seg>a place where all club members</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER2_TITLE3'>
+            <tuv xml:lang="en"><seg>can share ideas.</seg></tuv>
+            <tuv xml:lang="fr"><seg>peuvent communiquer.</seg></tuv>
+            <tuv xml:lang="uk"><seg>can share ideas.</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER2_MSG'>
+            <tuv xml:lang="en"><seg>The best thing about being part of an investment club is that you learn financial market and make money at the same time. Meetings and club reports are the only way to communicate in a traditional offline club.<br />Our main goal is to provide a place where members can share their ideas and communicate about different topics in real-time.</seg></tuv>
+            <tuv xml:lang="fr"><seg>La meilleure chose en étant membre d'un club d'investissement est que vous pouvez apprendre la bourse et gagner de l'argent en même temps. Les assemblés et les procès verbaux sont les moyens traditionnels des clubs d'investissements d'aujourd'hui, notre but est donc de vous proposer un endroit où tous les membres de votre club peuvent partager leurs idées en temps réel.</seg></tuv>
+            <tuv xml:lang="uk"><seg>The best thing about being part of an investment club is that you learn financial market and make money at the same time. Meetings and club reports are the only way to communicate in a traditional offline club.<br />Our main goal is to provide a place where members can share their ideas and communicate about different topics in real-time.</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER3_TITLE1'>
+            <tuv xml:lang="en"><seg>I need...</seg></tuv>
+            <tuv xml:lang="fr"><seg>J'ai besoin...</seg></tuv>
+            <tuv xml:lang="uk"><seg>I need...</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER3_TITLE2'>
+            <tuv xml:lang="en"><seg>to generate my club reports</seg></tuv>
+            <tuv xml:lang="fr"><seg>de générer des documents</seg></tuv>
+            <tuv xml:lang="uk"><seg>to generate my club reports</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER3_TITLE3'>
+            <tuv xml:lang="en"><seg>and share them easily.</seg></tuv>
+            <tuv xml:lang="fr"><seg>et les partager facilement.</seg></tuv>
+            <tuv xml:lang="uk"><seg>and share them easily.</seg></tuv>
+        </tu>
+        <tu tuid='SLIDER3_MSG'>
+            <tuv xml:lang="en"><seg>Your accountant probably spend a lot of time to write your club reports, but what if a simple clic would generate this report and send an email to all club members in less that 1 second? That's why we are here.<br />InvestiClub is connected to stock exchanges 24/7 and provides the most accurate state of your club all the time.</seg></tuv>
+            <tuv xml:lang="fr"><seg>Votre comptable passe probablement beaucoup de temps à faire vos rapports, alors quoi de mieux qu'un simple clic pour les générer en moins d'une seconde ? Voilà une raison de plus pour laquelle vous ne pourrez plus vous passer de nous.<br />De plus, nous sommes connectés aux places boursières 24/7 pour vous fournir des données précises en temps réel.</seg></tuv>
+            <tuv xml:lang="uk"><seg>Your accountant probably already use email to share your club reports, but what if a simple clic would generate this report and send an email to all club members in less that 1 second? That's why we are here.<br />InvestiClub is connected to stock exchanges 24/7 and provides the most accurate state of your club all the time.</seg></tuv>
+        </tu>
+        
+<!-- OUR SOLUTION -->
+        
+        <tu tuid='SOLUTION_TITLE'>
+            <tuv xml:lang="en"><seg>What do we offer?</seg></tuv>
+            <tuv xml:lang="fr"><seg>Que proposons nous ?</seg></tuv>
+            <tuv xml:lang="uk"><seg>What do we offer?</seg></tuv>
+        </tu>        
+        <tu tuid='SOLUTION_INTRO'>
+            <tuv xml:lang="en"><seg>InvestiClub is an online management system that simplifies your investment club accouting and allows all club members to communicate and bring their knowledge together.</seg></tuv>
+            <tuv xml:lang="fr"><seg>InvestiClub est une application en ligne qui simplifie la gestion de votre comptabilité et permet aux membres se se retrouver en ligne pour partager leurs connaissances.</seg></tuv>
+            <tuv xml:lang="uk"><seg>InvestiClub is an online management system that simplifies your investment club accouting and allows all club members to communicate and bring their knowledge together.</seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_DASHBOARD'>
+            <tuv xml:lang="en"><seg>Dashboard</seg></tuv>
+            <tuv xml:lang="fr"><seg>Tableau de bord</seg></tuv>
+            <tuv xml:lang="uk"><seg>Dashboard</seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_DASHBOARD_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Vision globale de votre club, le tableau de bord vous permet aussi bien de voir votre portefeuille en temps réel ainsi que les dernières contributions des membres du club.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_PORTFOLIO'>
+            <tuv xml:lang="en"><seg>Portfolio</seg></tuv>
+            <tuv xml:lang="fr"><seg>Portefeuille du club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Portfolio</seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_PORTFOLIO_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Ajout d'actions, de dividendes ou encore génération du bilan du club : toutes les opérations se font dans cette rubrique.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_MEMBERS'>
+            <tuv xml:lang="en"><seg>Members management</seg></tuv>
+            <tuv xml:lang="fr"><seg>Gestion des membres</seg></tuv>
+            <tuv xml:lang="uk"><seg>Members management</seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_MEMBERS_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Tous les membres du club peuvent accèder à leur compte et voir leur situation en temps réel. Quote-parts, performances ou encore actifs : tous les calculs sont automatiques.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_DOCUMENTS'>
+            <tuv xml:lang="en"><seg>Share your documents</seg></tuv>
+            <tuv xml:lang="fr"><seg>Partagez vos documents</seg></tuv>
+            <tuv xml:lang="uk"><seg>Share your documents</seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_DOCUMENTS_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Que ce soit les status du club ou bien les proçès verbaux des dernières assemblés, partagez tous vos documents avec votre club en un seul clic.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_FORUM'>
+            <tuv xml:lang="en"><seg>Forum</seg></tuv>
+            <tuv xml:lang="fr"><seg>Forum de discussion</seg></tuv>
+            <tuv xml:lang="uk"><seg>Forum</seg></tuv>
+        </tu>
+        <tu tuid='SOLUTION_FORUM_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Envie de communiquer ? Le forum est l'espace de rencontre d'InvestiClub. Vous y partagez vos idées et connaissances avec votre club ou bien avec la toute la communauté.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+
+		<!-- CONTACT -->
+
+        <tu tuid='CONTACT_TITLE'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Contactez-nous</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        <tu tuid='CONTACT_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Si vous avez des questions, des suggestions ou des commentaires, complétez ce formulaire et nous vous répondrons prochainement.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+
+		<!-- NEWS -->
+
+        <tu tuid='NEWS_WHATS_NEW'>
+            <tuv xml:lang="en"><seg>What's new?</seg></tuv>
+            <tuv xml:lang="fr"><seg>Quoi de neuf ?</seg></tuv>
+            <tuv xml:lang="uk"><seg>What's new?</seg></tuv>
+        </tu>
+        <tu tuid='NEWS1_TITLE'>
+            <tuv xml:lang="en">InvestiClub beta planned for January 2013<seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>La béta d'InvestiClub disponible dès janvier 2013</seg></tuv>
+            <tuv xml:lang="uk"><seg>InvestiClub beta planned for January 2013</seg></tuv>
+        </tu>
+        <tu tuid='NEWS1_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>C'est avec grand plaisir que nous vous annoncons la sortie officielle en version béta d'InvestiClub en janvier 2013. Cette version vous permettra d'utiliser toutes les fonctionnalités majeures d'InvestiClub. Par ailleurs, un système a été mis en place afin que vous puissiez nous remonter vos suggestions ou problèmes lors de l'utilisation du site. Nous tenons à la satisfaction de nos utilisateurs et nous nous engageons à vous répondre dans les plus brefs délais.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        <tu tuid='NEWS2_TITLE'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Si vous avez des questions, des suggestions ou des commentaires, complétez ce formulaire et nous vous répondrons prochainement.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        <tu tuid='NEWS2_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>Si vous avez des questions, des suggestions ou des commentaires, complétez ce formulaire et nous vous répondrons prochainement.</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        <tu tuid='NEWS_THEYRE_TALKING_ABOUT_US'>
+            <tuv xml:lang="en"><seg>They're talking about us</seg></tuv>
+            <tuv xml:lang="fr"><seg>Ils parlent de nous...</seg></tuv>
+            <tuv xml:lang="uk"><seg>They're talking about us</seg></tuv>
+        </tu>
+        <tu tuid='NEWS1_PRESS_TITLE'>
+            <tuv xml:lang="en"><seg>Epitech Inovative Project</seg></tuv>
+            <tuv xml:lang="fr"><seg>Epitech Inovative Project</seg></tuv>
+            <tuv xml:lang="uk"><seg>Epitech Inovative Project</seg></tuv>
+        </tu>
+        <tu tuid='NEWS1_PRESS_TEXT'>
+            <tuv xml:lang="en"><seg></seg></tuv>
+            <tuv xml:lang="fr"><seg>
+            L’Epitech Innovative Project (EIP) est l'étape principale dans le cursus de l'Epitechéen qui le fait passer de son statut d'étudiant à celui de professionnel à part entière. Anciennement dénommé PFE (Projet de Fin d’Etudes), il illustre parfaitement la pédagogie défendue par l'EPITECH. En 4e et 5e année, l'étudiant doit réaliser son projet en entier et tout mettre en œuvre pour qu'il soit utilisable dans le monde professionnel.&lt;br /&gt;&lt;br /&gt;
+            L’EIP a un double but :&lt;br /&gt;
+            - permettre aux étudiants d'acquérir une expérience de gestion intégrale de projet par la pratique&lt;br /&gt;
+            - les aider à constituer une carte de visite professionnelle de haut niveau</seg></tuv>
+            <tuv xml:lang="uk"><seg></seg></tuv>
+        </tu>
+        
+<!-- FOOTER -->
+        
+        <tu tuid='FOOTER_FEEDBACK'>
+            <tuv xml:lang="en"><seg>Feedback</seg></tuv>
+            <tuv xml:lang="fr"><seg>Feedback</seg></tuv>
+            <tuv xml:lang="uk"><seg>Feedback</seg></tuv>
+        </tu>
+        <tu tuid='FOOTER_FEEDBACK_TEXT'>
+            <tuv xml:lang="en"><seg>Any problem, suggestion or comment?</seg></tuv>
+            <tuv xml:lang="fr"><seg>Un problème, une suggestion ?</seg></tuv>
+            <tuv xml:lang="uk"><seg>Any problem, suggestion or comment?</seg></tuv>
+        </tu>
+        <tu tuid='FOOTER_FEEDBACK_LINK'>
+            <tuv xml:lang="en"><seg>Let us know!</seg></tuv>
+            <tuv xml:lang="fr"><seg>Envoyez-nous un email</seg></tuv>
+            <tuv xml:lang="uk"><seg>Let us know!</seg></tuv>
+        </tu>
+        
+<!-- SIGNUP -->
+        
+        <tu tuid='SIGNUP_TITLE'>
+            <tuv xml:lang="en"><seg>Sign-up now and make your investment club truly successful!</seg></tuv>
+            <tuv xml:lang="fr"><seg>Inscrivez-vous maintenant et profitez de nos outils gratuitement !</seg></tuv>
+            <tuv xml:lang="uk"><seg>Sign-up now and make your investment club truly successful!</seg></tuv>
+        </tu>
+        <tu tuid='SIGNUP_DESC'>
+            <tuv xml:lang="en">
+            	<seg>
+	            	<p><strong>Virtual portfolio</strong>&lt;br /&gt;
+					Build and follow your virtual portfolio in real-time!</p>&lt;br /&gt;
+					<p><strong>Club management</strong>&lt;br /&gt;
+					Create and manage your own club or join an existing club using our Club Finder.</p>&lt;br /&gt;
+					<p><strong>Members management</strong>&lt;br /&gt;
+					Manage your club members and define their roles within your club.</p>&lt;br /&gt;
+					<p><strong>File sharing</strong>&lt;br /&gt;
+					Share with other members any file relative to your club.</p>&lt;br /&gt;
+					<p><strong>Financial reports</strong>&lt;br /&gt;
+					We provide useful tools to auto-generate reports ranging from general journal to portfolio performance, and including members shares.</p>
+				</seg>
+			</tuv>
+            <tuv xml:lang="fr">
+            	<seg>
+	            	<p><strong>Portefeuille virtuel</strong>&lt;br /&gt;
+					Construisez et suivez votre portefeuille d'actions virtuel en temps réel !</p>&lt;br /&gt;
+					<p><strong>Gestion du club</strong>&lt;br /&gt;
+					Créez et gérez votre propre club ou joignez un club existant sur la plateforme InvestiClub.</p>&lt;br /&gt;
+					<p><strong>Gestion des membres</strong>&lt;br /&gt;
+					Gérez les membres de votre club et définissez leur rôles au sein du club.</p>&lt;br /&gt;
+					<p><strong>Partage de fichiers</strong>&lt;br /&gt;
+					Partagez vis fichiers relatifs à votre club d'investissement avec les autres membres.</p>&lt;br /&gt;
+					<p><strong>Rapports financiers</strong>&lt;br /&gt;
+					Nous mettons à votre disposition des outils permettant de générer automatiquement aussi bien le journal du club que les performences de votre portefeuille ou encore l'état comptable des membres du club.</p>
+				</seg>
+			</tuv>
+            <tuv xml:lang="uk">
+            	<seg>
+	            	<p><strong>Virtual portfolio</strong>&lt;br /&gt;
+					Build and follow your virtual portfolio in real-time!</p>&lt;br /&gt;
+					<p><strong>Club management</strong>&lt;br /&gt;
+					Create and manage your own club or join an existing club using our Club Finder.</p>&lt;br /&gt;
+					<p><strong>Members management</strong>&lt;br /&gt;
+					Manage your club members and define their roles within your club.</p>&lt;br /&gt;
+					<p><strong>File sharing</strong>&lt;br /&gt;
+					Share with other members any file relative to your club.</p>&lt;br /&gt;
+					<p><strong>Financial reports</strong>&lt;br /&gt;
+					We provide useful tools to auto-generate reports ranging from general journal to portfolio performance, and including members shares.</p>
+				</seg>
+			</tuv>
+        </tu>
+        <tu tuid='SIGNUP_TERMS_MSG'>
+            <tuv xml:lang="en"><seg>By clicking Sign Up, you are indicating that you have read and agree to the %1$s of InvestiClub.</seg></tuv>
+            <tuv xml:lang="fr"><seg>En cliquant sur S'inscrire, vous indiquez avoir lu et approuvé les %1$s d'InvestiClub.</seg></tuv>
+            <tuv xml:lang="uk"><seg>By clicking Sign Up, you are indicating that you have read and agree to the %1$s of InvestiClub.</seg></tuv>
+        </tu>
+        <tu tuid='SIGNUP_TERMS'>
+            <tuv xml:lang="en"><seg>Terms of Use</seg></tuv>
+            <tuv xml:lang="fr"><seg>conditions d'utilisation</seg></tuv>
+            <tuv xml:lang="uk"><seg>Terms of Use</seg></tuv>
+        </tu>
+        
+<!-- SIGNUP CONFIRMATION -->
+        
+        <tu tuid='SIGNUP_CONFIRMATION_TITLE'>
+            <tuv xml:lang="en"><seg>You're almost done...</seg></tuv>
+            <tuv xml:lang="fr"><seg>C'est presque fini...</seg></tuv>
+            <tuv xml:lang="uk"><seg>You're almost done...</seg></tuv>
+        </tu>
+        <tu tuid='SIGNUP_CONFIRMATION_TEXT'>
+            <tuv xml:lang="en"><seg>Thank you %1$s %2$s for your registration. A confirmation email has been sent to you at %3$s.&lt;br /&gt;Please, activate your account.</seg></tuv>
+            <tuv xml:lang="fr"><seg>Merci %1$s %2$s pour votre inscription. Un email de confirmation vient de vous être envoyé à %3$s.&lt;br /&gt;Merci d'activer votre compte.</seg></tuv>
+            <tuv xml:lang="uk"><seg>Thank you %1$s %2$s for your registration. A confirmation email has been sent to you at %3$s.&lt;br /&gt;Please, activate your account.</seg></tuv>
+        </tu>
+        <tu tuid='SIGNUP_CONFIRMATION_HEADTITLE'>
+            <tuv xml:lang="en"><seg>Confirmation Email Sent</seg></tuv>
+            <tuv xml:lang="fr"><seg>Email de confirmation envoyé</seg></tuv>
+            <tuv xml:lang="uk"><seg>Confirmation Email Sent</seg></tuv>
+        </tu>
+
+<!-- NOTIFICATIONS -->
+        
+        <tu tuid='NOTIFICATION_MEMBER_JOIN_REQUEST_FOR_ADMIN'>
+            <tuv xml:lang="en"><seg>%1$s %2$s souhaite rejoindre votre club. %3$s %4$s</seg></tuv>
+            <tuv xml:lang="fr"><seg>%1$s %2$s souhaite rejoindre votre club. %3$s %4$s</seg></tuv>
+            <tuv xml:lang="uk"><seg>%1$s %2$s souhaite rejoindre votre club. %3$s %4$s</seg></tuv>
+        </tu>
+        <tu tuid='NOTIFICATION_MEMBER_JOIN_REQUEST_FOR_ADMIN_ACCEPT'>
+            <tuv xml:lang="en"><seg>Accept</seg></tuv>
+            <tuv xml:lang="fr"><seg>Accepter</seg></tuv>
+            <tuv xml:lang="uk"><seg>Accept</seg></tuv>
+        </tu>
+        <tu tuid='NOTIFICATION_MEMBER_JOIN_REQUEST_FOR_ADMIN_DECLINE'>
+            <tuv xml:lang="en"><seg>Decline</seg></tuv>
+            <tuv xml:lang="fr"><seg>Refuser</seg></tuv>
+            <tuv xml:lang="uk"><seg>Decline</seg></tuv>
+        </tu>
+        <tu tuid='NOTIFICATION_MEMBER_JOIN_REQUEST_FOR_USER'>
+            <tuv xml:lang="en"><seg>Votre demande d'adhésion au club %1$s est en attente de validation par l'administrateur du club.</seg></tuv>
+            <tuv xml:lang="fr"><seg>Votre demande d'adhésion au club %1$s est en attente de validation par l'administrateur du club.</seg></tuv>
+            <tuv xml:lang="uk"><seg>Votre demande d'adhésion au club %1$s est en attente de validation par l'administrateur du club.</seg></tuv>
+        </tu>
+  
+<!-- DASHBOARD -->
+        
+        <tu tuid='DASHBOARD_CLUB_SUMMARY'>
+            <tuv xml:lang="en"><seg>Club Summary</seg></tuv>
+            <tuv xml:lang="fr"><seg>Résumé du club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Club Summary</seg></tuv>
+        </tu>
+        <tu tuid='DASHBOARD_CLUB_TOTAL_ASSETS'>
+            <tuv xml:lang="en"><seg>Club total assets</seg></tuv>
+            <tuv xml:lang="fr"><seg>Actifs du club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Club total assets</seg></tuv>
+        </tu>
+        <tu tuid='DASHBOARD_CLUB_UNREALIZED_GAIN'>
+            <tuv xml:lang="en"><seg>Club unrealized gain</seg></tuv>
+            <tuv xml:lang="fr"><seg>Plus-value latente</seg></tuv>
+            <tuv xml:lang="uk"><seg>Club unrealized gain</seg></tuv>
+        </tu>
+        <tu tuid='DASHBOARD_CLUB_UNREALIZED_GAIN_PERCENT'>
+            <tuv xml:lang="en"><seg>Unrealized gain performence</seg></tuv>
+            <tuv xml:lang="fr"><seg>Performence latente</seg></tuv>
+            <tuv xml:lang="uk"><seg>Unrealized gain performence</seg></tuv>
+        </tu>
+        <tu tuid='DASHBOARD_CLUB_PERFORMENCE'>
+            <tuv xml:lang="en"><seg>Club performence</seg></tuv>
+            <tuv xml:lang="fr"><seg>Performence du club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Club performence</seg></tuv>
+        </tu>
+        <tu tuid='DASHBOARD_CLUB_MEMBERS'>
+            <tuv xml:lang="en"><seg>Club Members</seg></tuv>
+            <tuv xml:lang="fr"><seg>Membres du club</seg></tuv>
+            <tuv xml:lang="uk"><seg>Club Members</seg></tuv>
+        </tu>
+        <tu tuid='DASHBOARD_CLUB_MEMBERS_DESC'>
+            <tuv xml:lang="en"><seg>In order to get more information about each member, please hover your mouse pointer over the pie slice you are interesting in.</seg></tuv>
+            <tuv xml:lang="fr"><seg>Afin d'obtenir plus d'information sur un membre, survolez la part du membre à l'aide du pointeur de votre souris.</seg></tuv>
+            <tuv xml:lang="uk"><seg>In order to get more information about each member, please hover your mouse pointer over the pie slice you are interesting in.</seg></tuv>
+        </tu>
+        <tu tuid='DASHBOARD_CONTRIBUTIONS'>
+            <tuv xml:lang="en"><seg>Contributions</seg></tuv>
+            <tuv xml:lang="fr"><seg>Cotisations</seg></tuv>
+            <tuv xml:lang="uk"><seg>Contributions</seg></tuv>
+        </tu>
+        <tu tuid='DASHBOARD_CONTRIBUTIONS_PAID'>
+            <tuv xml:lang="en"><seg>All contributions have been paid for this period.</seg></tuv>
+            <tuv xml:lang="fr"><seg>Les cotisations de la periode courante ont été payées.</seg></tuv>
+            <tuv xml:lang="uk"><seg>All contributions have been paid for this period.</seg></tuv>
+        </tu>
+  
+    </body>
+</tmx>

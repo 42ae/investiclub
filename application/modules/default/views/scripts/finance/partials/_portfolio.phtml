@@ -1,0 +1,34 @@
+<tbody id="<?= $this->stockId ?>">
+ <tr <?= ($this->partialCounter % 2) ? '' : 'class="pf-row-gray"' ?>>
+  <td class="pf-detailed text-left" id="toggle-<?= $this->stockId ?>"><img src="/assets/img/icons/expand.png" class="icon toggle" alt="Expand/Collapse" /></td>
+  <td class="pf-symbol text-left"><span class="symbol" title="<?= $this->name ?>"><?= $this->symbol ?></span></td>
+  <td class="pf-shares text-center"><?= round($this->shares, 2) ?></td>
+  <td class="pf-last-price text-center"><span class="val"><?= $this->lastPrice ?></span></td>
+  <td class="pf-weight text-center"><span class="val"><?= round($this->weight, 2) ?>%</span></td>
+  <td class="pf-cost-price text-center"><span class="val"><?= round($this->costPrice, 2) ?></span></td>
+  <td class="pf-market-value text-center"><span class="val"><?= round($this->marketValue, 2) ?></span></td>
+  <td class="pf-virtual-gain text-center"><span class="val" style="<?= (round($this->virtualGain, 2) >= 0) ? 'color:#6fa03d' : 'color:#de3f23' ?>"><?= (round($this->virtualGain, 2) >= 0) ? '+' : '' ?><?= round($this->virtualGain, 2) ?></span></td>
+  <td class="pf-dashboard text-right"><img src="/assets/img/icons/add.png" class="icon buy" alt="buy" title="Buy" /><img src="/assets/img/icons/minus.png" class="icon sell" alt="sell" title="Sell" /><img src="/assets/img/icons/info.png" class="icon info" alt="info" /><img src="/assets/img/icons/diagram.png" class="icon diagram" alt="Diagram" /></td>
+ </tr> <?php // don't touch alt attr - used by jQuery ?>
+ <tr class="pf-detailed-header row-<?= $this->stockId ?>" style="display: none">
+  <td class="pf-detailed-date text-center" colspan="2">Date</td>
+  <td class="pf-detailed-type text-center">Type</td>
+  <td class="pf-detailed-shares text-center">Nombre</td>
+  <td class="pf-detailed-price text-center">Prix</td>
+  <td class="pf-detailed-fees text-center">Frais</td>
+  <td class="pf-detailed-cost-price text-center">PRU</td>
+  <td class="pf-detailed-total-price text-center">Coût total</td>
+  <td class="pf-detailed-dashboard text-right"></td>
+ <?php foreach ($this->ActiveHistory as $key => $data): ?>
+  <tr class="pf-detailed pf-row-gray row-<?= $this->stockId ?>" style="display: none">
+   <td class="pf-detailed-date text-center" colspan="2"><?= $data['date'] ?></td>
+   <td class="pf-detailed-type text-center"><?= ucfirst($data['ope']) ?></td>
+   <td class="pf-detailed-shares text-center"><span class="val"><?= round($data['shares'], 2) ?></span></td>
+   <td class="pf-detailed-price text-center"><span class="val"><?= round($data['price'], 2) ?>%</span></td>
+   <td class="pf-detailed-fees text-center"><span class="val"><?= round($data['fees'], 2) ?></span></td>
+   <td class="pf-detailed-cost-price text-center"><span class="val"><?= round($data['costPrice'], 2) ?></span></td>
+   <td class="pf-detailed-total-price text-center"><span class="val"><?= round($data['totalCost'], 2) ?></span></td>
+   <td class="pf-detailed-dashboard text-right"><img src="/assets/img/icons/edit.png" alt="Edit" /> <img src="/assets/img/icons/delete.png" alt="Delete" /></td>
+ </tr>
+ <?php endforeach; ?>
+</tbody>

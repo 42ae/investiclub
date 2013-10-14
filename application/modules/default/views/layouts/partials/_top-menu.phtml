@@ -1,0 +1,13 @@
+<div id="navigation">
+<?= $this->navigation()
+         ->menu()
+         ->setMaxDepth(2)
+         ->render(Zend_Registry::get('nav.topmenu')) . PHP_EOL;   
+?>
+</div>
+<noscript>
+ <div id="noscript" class="flash warning">
+  <p>You don't have javascript enabled. Good luck with that.</p>
+ </div>
+</noscript>
+<!-- end #nav-wrapper -->

@@ -1,0 +1,177 @@
+<?php $this->headTitle('Documents'); ?>
+<?php $this->jQuery()->uiEnable() ?>
+<? $this->headLink()->appendStylesheet($this->baseUrl() . '/assets/css/table.css') ?>
+
+<center><h1>Mes documents</h1></center>
+
+<?= $this->notice()->get($this->messages); ?>
+
+<div id="options-list">
+ <div id="create-document" style="cursor: pointer; width: 50%; margin: 0px auto; background-color: #F2F5F7; border: 1px solid #D5DCE8; height: 50px; margin-bottom: 20px; padding: 10px; width: 330px; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px;">
+	<img src="/assets/img/icons/add-file.png" style="float:left; margin-right:10px"/>
+	<strong>Ajouter un nouveau document</strong><br />
+	Sauvegardez vos compte-rendus de réunion en créant ou ajoutant un nouveau document.
+ </div>
+</div>
+<div id="create-document-dialog">
+    <?= $this->uploadForm ?>
+</div>
+<div id="delete-document-dialog">
+    Êtes-vous sûre de vouloir supprimer ce document ?
+</div>
+
+
+
+<?php 
+function printDir($viewObj, Ivc_Fs $relDir, $level = 0) // Recursive fonction !
+{
+	$content = $relDir->content;
+	$spaces = str_repeat( '&nbsp;&nbsp;', ( $level * 4 ) );
+	foreach ($content as $k => $entry)
+	{
+		
+		if ($entry instanceof Ivc_Fs)
+		{
+			echo '<tr class="pf-detailed-header">';
+			echo '<td class="google-visualization-table-td" colspan="4">' . $spaces . '<img src="/assets/img/icons/folder.png"> [' . ucfirst($entry->getName()) . "]</td>";
+			printDir($viewObj, $entry, $level + 1);
+		}
+		else
+		{
+			echo ($k % 2) ? '<tr class="google-visualization-table-tr-odd">' : '<tr class="google-visualization-table-tr-even">';
+			echo '<td class="google-visualization-table-td">' . $spaces . '<img src="/assets/img/icons/documents.png" alt="Document" /> ' . $entry->getName() . "</td>"
+			. '<td class="google-visualization-table-td">' . $entry->getCreationDate() . '</td>'
+			. '<td class="google-visualization-table-td">' . $viewObj->members->getUserByMemberId($entry->getCreatorId())->first_name . " " . $viewObj->members->getUserByMemberId($entry->getCreatorId())->last_name . '</td>'
+			. '<td class="google-visualization-table-td"><a href="' .  $viewObj->url(array('controller'=>'xotests',
+					'action' => 'sendfile',
+					'file' => $entry->getUrl()),
+					'default',
+					true) . '"><img src="/assets/img/icons/download.png" width="16px" alt="Download" class="icon tip" title="Download"/></a> '
+			. '<a href="' .  $viewObj->url(array('controller'=>'documents',
+					'action' => 'removefile',
+					'file' => $entry->getUrl()),
+					'default',
+					true) . '"><img src="/assets/img/icons/delete.png" alt="Delete" class="icon tip delete" title="Delete"/></a>';
+			if ($entry->getType() == "texteditor")
+				echo '<a href="' .  $viewObj->url(array('controller'=>'documents',
+					'action' => 'editor',
+					'file' => $entry->getUrl()),
+					'default',
+					true) . '"><img src="/assets/img/icons/edit.png" alt="Editeur de texte" class="icon tip" title="Editeur de texte"/></a> ';
+			/*. '<a href="' .  $viewObj->url(array('controller'=>'xotests',
+					'action' => 'movefile',
+					'file' => $entry->getUrl()),
+					'default',
+					true) . '"></a><img src="/assets/img/icons/edit.png" alt="Edit" class="icon tip" title="Edit"/></td>';*/
+			echo '</td>';
+		}
+		echo "</tr>";
+	}
+}
+?>
+
+<table class="google-visualization-table-table" id="datastore" style="width:100%">
+	<thead>
+  		<tr class="google-visualization-table-tr-head">
+   			<th class="text-left google-visualization-table-th">Name</th>
+   			<th class="text-center google-visualization-table-th">Date</th>
+   			<th class="text-left google-visualization-table-th">Creator</th>
+   			<th class="text-right google-visualization-table-th">Dashboard</th>
+  		</tr>
+ 	</thead>
+  	<tbody>
+		<?php printDir($this, $this->datastore); ?>
+ 	</tbody>
+</table>
+
+<div class="modal"><!-- Ajax Spinner --></div>
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+//<script>
+
+
+$(document).on({
+    ajaxStart: function() { 
+        $("body").addClass("loading"); 
+    },
+    ajaxStop: function() {
+    	$("body").removeClass("loading"); 
+    }    
+});
+
+    $(".tip").qtip({
+        style: {
+            classes: "ui-tooltip-dark ui-tooltip-shadow"
+        },
+        position: {
+            my: "top middle",  // Position my top left...
+            at: "bottom middle" // at the bottom right of...
+        }
+    });
+
+	$.extend($.ui.dialog.prototype.options, {
+	    modal: true,
+	    resizable: true,
+	    width: 550,
+	    autoOpen: false,
+	    close: function() {
+        },
+        buttons: {
+        	"Cancel": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+	});
+
+	var types = {error:"error", warning:"warning", success:"success"};
+	var deleted = null;
+	
+    $( "#delete-document-dialog" ).dialog({
+        buttons: {
+            "Supprimer": function() {
+            	var path = $(this).data('link').attr('href');
+            	console.log(path);
+            	$(location).attr('href', path);
+            }
+        },
+        open: function (event, ui) {
+        }
+    });
+
+    $( "#create-document-dialog" ).dialog({
+        buttons: {
+            "Envoyer": function() {
+            	$( "#form-create-document" ).submit();
+            }
+        },
+        open: function (event, ui) {
+        }
+    });
+		
+
+    $(document).on("click", "#create-document", function(e) {
+    	e.preventDefault();
+    	$('#title').hide();
+        $( "#create-document-dialog" ).dialog('open');
+    });
+
+    $(document).on("click", ".delete", function(e) {
+    	e.preventDefault();
+        $( "#delete-document-dialog" ).data('link', $(this).closest('a'))
+        							  .dialog('open');
+    });
+
+
+    $(document).on("click", "#createfile", function(e) {
+        if ($('#createfile').is(':checked')) {
+        	$('#title').show();
+        	$('#file').hide();
+        } else {
+        	$('#title').hide();
+        	$('#file').show();
+        }
+
+    });
+
+//</script>
+<?php $this->jQuery()->onLoadCaptureEnd() ?>

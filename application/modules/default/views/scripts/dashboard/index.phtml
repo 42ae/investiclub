@@ -1,0 +1,66 @@
+<style>
+.blockTitle {
+	border-bottom: 1px solid #D5DCE8;
+	color: #434343;
+	font-size: 15px;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 30px 0 10px;
+	position: relative;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+}
+
+.block-gray {
+	background: none repeat scroll 0 0 #fafafa;
+	border: 1px solid #D5DCE8;
+	margin-bottom: 10px;
+	border-radius: 6px;
+	padding: 10px;
+}
+
+.assets-profit {
+	color: #6fa03d;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 19px;
+}
+
+.db-row {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+.block-list {
+	
+}
+
+.block-list li {
+	margin: 10px 0px;
+}
+</style>
+
+<?php foreach ($this->currentUser->getNotificationsUnread() as $notification): ?>
+    <?= $this->notifications()->render($notification) ?>
+<?php endforeach; ?>
+
+<?php if (true === $this->currentUser->hasClub()): ?>
+	<?= $this->partial('dashboard/partials/_member-dashboard.phtml', 'default', $this->data) ?>
+<?php else: ?>
+	<?= $this->partial('dashboard/partials/_user-dashboard.phtml', 'default', $this->data) ?>
+<?php endif; ?>
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+//<script>
+
+$(document).on("click", ".mark-as-read", function(e) {
+	e.preventDefault();
+	var link = $(this);
+    $.post(this.href + '/format/json', function(data) {
+        if (typeof data.messages.success !== "undefined") {
+        	link.closest("div").fadeOut();
+        }
+    });
+});
+
+<?php $this->jQuery()->onLoadCaptureEnd() ?>

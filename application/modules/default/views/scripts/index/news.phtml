@@ -1,0 +1,78 @@
+<style type="text/css">
+#home-wrapper {
+	font-size: 16px;
+	margin: 0 auto;
+	padding: 4px 48px 0;
+	position: relative;
+	width: 896px;
+	clear: left;
+}
+
+#home-wrapper h1 {
+	font-size: 48px;
+	line-height: 30px;
+	margin: 0.2em 0;
+	text-align: center;
+	text-shadow: 0 2px 0 #FFFFFF;
+}
+
+.news-titles {
+    width: 940px;
+    float: left;
+    margin-left: 20px;
+	margin: 5px 0;
+}
+
+.news-titles:after {
+	margin-bottom: 30px;
+}
+
+.news-titles p {
+    font-size: 13px;
+    line-height: 22.5px;
+}
+
+#news {
+	height:auto;
+	margin: 20px 0;
+}
+
+</style>
+
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+// <script type="text/javascript"> 
+
+$(document).on("click", "div.news-titles a", function(e) {
+    e.preventDefault();
+    $(this).parent().next().slideToggle('slow', function() {
+        console.log("toggled");
+      });
+});
+// </script>
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+
+
+
+<div id="home-wrapper" class="group">
+<div style="clear:both; padding-bottom: 20px">
+<h1><?= $this->translate('NEWS_WHATS_NEW') ?></h1>
+</div>
+  <div class="news-titles">
+    <p>Le 5 décembre 2012: &nbsp;&nbsp; <a href="#investiclub-beta-planned"><?= $this->translate('NEWS1_TITLE') ?></a></p>
+    <p style="display:none"><?= $this->translate('NEWS1_TEXT') ?></p>
+  </div>
+<!--  <div class="news-titles">-->
+<!--    <p>November 4, 2012: &nbsp;&nbsp; <a href="#investiclub-launch">InvestiClub launch at Epitech Inovative Project</a></p>-->
+<!--    <p style="display:none">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse.</p>-->
+<!--  </div>-->
+<div style="clear:both; padding: 20px 0">
+<h1><?= $this->translate('NEWS_THEYRE_TALKING_ABOUT_US') ?></h1>
+</div>
+  <div class="news-titles">
+    <p>8 novembre 2012: &nbsp;&nbsp; <a href="#eip"><?= $this->translate('NEWS1_PRESS_TITLE') ?></a></p>
+    <p style="display:none"><?= $this->translate('NEWS1_PRESS_TEXT') ?></p>
+  </div>
+  
+</div>

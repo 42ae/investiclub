@@ -1,0 +1,28 @@
+<?php
+/**
+ * InvestiClub
+ *
+ * LICENSE
+ *
+ * This file may not be duplicated, disclosed or reproduced in whole or in part
+ * for any purpose without the express written authorization of InvestiClub.
+ *
+ * @category	InvestiClub
+ * @package		DbTable
+ * @copyright	Copyright (c) 2011-2013 All Rights Reserved
+ * @license		http://investiclub.net/license
+ */
+
+
+/**
+ * Stocks class for SQL table dependencies.
+ * 
+ * @author	Alexandre Esser
+ * @package	DbTable
+ */
+class Model_Portfolio_DbTable_Stocks extends Zend_Db_Table_Abstract
+{
+    protected $_name = 'stocks';
+    protected $_dependentTables = array('Model_Portfolio_DbTable_QuotesLive',
+    									'Model_Portfolio_DbTable_QuotesHistorical');
+}

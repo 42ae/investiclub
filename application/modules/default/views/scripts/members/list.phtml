@@ -1,0 +1,336 @@
+<?php $this->headTitle('Members list'); ?>
+<?php $this->jQuery()->uiEnable() ?>
+
+<div style="text-align:center; padding-bottom: 15px;">
+<img class="add-member tip top-icon" title="Add a new member" src="/assets/img/icons/add-user.png" />
+<!--<img class="add-member2" src="/assets/img/icons/add-user.png" />-->
+</div>
+
+<div id="add-member" class="top-action" style="display:none; margin-bottom:20px">
+ <h3>Add a member</h3>
+ <div style="display: none" class="flash" id="form-notice-add-member"></div>
+ <form id="form-add-member" class="top-block-form" action="/ajax/members/add/format/json">
+  <table>
+  <tr>
+   <?= $this->formAddMember->first_name->renderLabel() ?>
+   <?= $this->formAddMember->last_name->renderLabel() ?>
+   <?= $this->formAddMember->email->renderLabel() ?>
+   <?= $this->formAddMember->role->renderLabel() ?>
+   <th></th>
+  </tr>
+  <tr>
+   <td><?= $this->formAddMember->first_name->renderViewHelper() ?></td>
+   <td><?= $this->formAddMember->last_name->renderViewHelper() ?></td>
+   <td><?= $this->formAddMember->email->renderViewHelper() ?></td>
+   <td><?= $this->formAddMember->role->renderViewHelper() ?></td>
+   <td><?= $this->formAddMember->submit ?></td>
+  </tr>
+  </table>
+ </form>
+</div>
+<div id="add-member2" class="top-action" style="display:none">
+	1<br />
+	2<br />
+	3<br />
+	4<br />
+</div>
+<?= $this->notice()->get($this->messages); ?>
+<div id="members-list"></div>
+
+<div id="edit-member" style="display:none"></div>
+<div id="delete-member" style="display:none"></div>
+<div id="add-email" style="display:none"></div>
+<div id="make-admin" style="display:none"></div>
+
+<div class="modal"><!-- Ajax Spinner --></div>
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+//<script>
+google.load('visualization', '1', {packages:['table']});
+google.setOnLoadCallback(drawTable);
+
+function drawTable() {
+	<?php $model = array('members' => $this->members, 'pendingMembers' => $this->pendingMembers, 'acl' => $this->acl) ?>
+	<?php $partial = $this->partial('members/partials/_member-list-table.phtml', 'default', $model) ?>
+    var data = new google.visualization.DataTable(<?= $partial ?>);
+    var table = new google.visualization.Table(document.getElementById('members-list'));
+    table.draw(data, {allowHtml: true, showRowNumber: true});
+} 
+
+//We'll encapsulate our .qtip() call in your .live() handler method
+$('.tip').live('mouseover', function(event) {
+   // Bind the qTip within the event handler
+   $(this).qtip({
+      overwrite: false, // Make sure the tooltip won't be overridden once created
+      style: {
+          classes: "ui-tooltip-dark ui-tooltip-shadow"
+      },
+      position: {
+              my: "top middle",  // Position my top left...
+              at: "bottom middle" // at the bottom right of...
+      },
+      show: {
+         event: event.type, // Use the same show event as the one that triggered the event handler
+         ready: true // Show the tooltip as soon as it's bound, vital so it shows up the first time you hover!
+      }
+   }, event); // Pass through our original event to qTip
+})
+// Store our title attribute in 'oldtitle' attribute instead
+.each(function(i) {
+   $.attr(this, 'oldtitle', $.attr(this, 'title'));
+   this.removeAttribute('title');
+});
+
+$(document).on({
+    ajaxStart: function() { 
+        $("body").addClass("loading"); 
+    },
+    ajaxStop: function() {
+    	$("body").removeClass("loading"); 
+    }    
+});
+
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+
+
+    
+    $( "#dialog:ui-dialog" ).dialog( "destroy" );
+    var types = {error:"error", warning:"warning", success:"success"};
+    var noticeName;
+    var noticeTop = $( "#top-notice" );
+
+    function updateNotice(n)
+    {
+        clearNotice();
+        content = "";
+        $.each(n.content, function(key, value) {
+			content += "<p>" + value + "</p>";
+        });
+        
+        if (n.type == "success") {
+        	noticeTop.stop(true, true).html(content).addClass(n.type).fadeIn(2000);
+        	noticeTop.queue(function() { 
+				setTimeout(function(){ 
+					noticeTop.dequeue(); 
+				}, 5500 );
+			});
+        	noticeTop.fadeOut("fast");
+        } else {
+	    	noticeName.html(content).addClass(n.type).show("slow");
+        }
+    }
+
+    function clearNotice()
+    {
+    	noticeName.hide().empty().removeClass( "error warning success" );
+    	noticeTop.hide().empty().removeClass( "error warning success" );
+    }
+
+    function drawAjaxTable(response)
+    {
+	     var data = new google.visualization.DataTable(response);
+	     var table = new google.visualization.Table(document.getElementById('members-list'));
+	     table.draw(data, {allowHtml: true, showRowNumber: true});
+	     $( ".google-visualization-table-table" ).css("width", "100%");
+	 }
+
+	function getMemberList(notice)
+	{
+        $.get("/ajax/members/list/format/html", function(data) {
+        	$( "#members-list" ).fadeOut(500, function() {
+        		google.setOnLoadCallback(drawAjaxTable(data));
+  				$( "#members-list" ).stop(true, true).hide().fadeIn(2000);
+  				updateNotice(notice);
+			});
+        });
+	}
+
+	$.extend($.ui.dialog.prototype.options, {
+	    modal: true,
+	    resizable: true,
+	    width: 550,
+	    autoOpen: false,
+	    close: function() {
+        	clearNotice();
+        },
+        buttons: {
+        	"Cancel": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+	});
+
+    $( "#edit-member" ).dialog({
+        buttons: {
+            "OK": function() {
+                clearNotice();
+                $.post("/ajax/members/edit/format/json", $( "#form-edit-member" ).serialize(), function(data) {
+                    if (data.messages.type === types.success) {
+                        $( "#edit-member" ).dialog( "close" );
+                        getMemberList(data.messages);
+                    } else // .type == warning|error
+                        updateNotice(data.messages);
+              	}, "json");
+            }
+        },
+        open: function() {
+        	$( "#form-edit-member" ).submit( function(e) {
+                e.preventDefault();
+            });
+        }
+    });
+
+    $( "#add-email" ).dialog({
+        buttons: {
+            "OK": function() {
+                clearNotice();
+                $.post("/ajax/members/add-email/format/json", $( "#form-add-email" ).serialize(), function(data) {
+                	if (data.messages.type === types.success) {
+                        $( "#add-email" ).dialog( "close" );
+                        getMemberList(data.messages);
+                    } else // .type == warning|error
+                        updateNotice(data.messages);
+              	}, "json");
+            }
+        },
+        open: function (event, ui) {
+        	$( "#form-add-email" ).submit( function(e) {
+                e.preventDefault();
+            });
+        }
+    });
+
+
+    $( "#delete-member" ).dialog({
+        buttons: {
+            "OK": function() {
+                clearNotice();
+                $.post("/ajax/members/delete/format/json", $( "#form-delete-member" ).serialize(), function(data) {
+            		if (data.messages.type === types.success) {
+                        $( "#delete-member" ).dialog( "close" );
+                        getMemberList(data.messages);
+                    } else // .type == warning|error
+                        updateNotice(data.messages);
+              	}, "json");
+            }
+        },
+        open: function (event, ui) {
+        	$(this).parents('.ui-dialog-buttonpane button:eq(0)').focus();
+        }
+    });
+
+
+    $( "#make-admin" ).dialog({
+        buttons: {
+            "OK": function() {
+                clearNotice();
+                $( "#form-make-admin" ).submit();
+            }
+        },
+        open: function (event, ui) {
+        	$(this).parents('.ui-dialog-buttonpane button:eq(0)').focus();
+        }
+    });
+
+    $( "#form-add-member" ).submit(function(e) {
+        e.preventDefault();
+        clearNotice();
+    	noticeName = $( "#form-notice-add-member");
+        $.post($(this).attr("action"), $(this).serialize(), function(data) {
+            console.log(data);
+        	if (data.messages.type === types.success) {
+        		$( "#form-add-email:input" ).val("");
+                getMemberList(data.messages);
+            } else // .type == warning|error
+                updateNotice(data.messages);
+      	}, "json");
+    });
+
+    
+    $(document).on("click", ".add-email", function(e) {
+    	e.preventDefault();
+        $.get(this.href + '/format/html', function(data) {
+        	$( "#add-email" ).html(data);
+        	noticeName = $( "#form-notice-add-email");
+            $( "#add-email" ).dialog('open');
+        });
+    });
+
+    $(document).on("click", ".edit-member", function(e) {
+    	e.preventDefault();
+        $.get(this.href + '/format/html', function(data) {
+            $( "#edit-member" ).html(data);
+            noticeName = $( "#form-notice-edit-member");
+            $( "#enrollement_date" ).datepicker("disable");
+            $( "#edit-member " ).dialog('open');
+            $( "#enrollement_date" ).datepicker("enable");
+        });
+    });
+
+    $(document).on("click", ".make-admin", function(e) {
+    	e.preventDefault();
+        $.get(this.href + '/format/html', function(data) {
+        	$( "#make-admin" ).html(data);
+            $( "#make-admin" ).dialog('open');
+        	noticeName = $( "#form-notice-make-admin");
+        });
+    });
+
+    $(document).on("click", ".delete-member", function(e) {
+    	e.preventDefault();
+        $.get(this.href + '/format/html', function(data) {
+        	$( "#delete-member" ).html(data);
+            $( "#delete-member" ).dialog('open');
+        	noticeName = $( "#form-notice-delete-member");
+        });
+    });
+
+    $(document).on("click", ".add-member", function(e) {
+        e.preventDefault();
+    	noticeName = $( "#form-notice-add-member");
+        clearNotice();
+    	$( "#form-add-member" ).get(0).reset(); // reset form
+    	if ($( "#add-member" ).is(":hidden"))
+            $( ".top-action" ).hide();
+        $( "#add-member" ).stop(true, true).slideToggle("slow");
+    });
+
+    $(document).on("click", ".add-member2", function(e) {
+        e.preventDefault();
+    	if ($( "#add-member2" ).is(":hidden"))
+            $( ".top-action" ).hide();
+        $( "#add-member2" ).stop(true, true).slideToggle("slow");
+    });
+
+
+    $.ajaxSetup({
+        error: function handleXhrError(jqXHR, textStatus, errorThrown) {
+            // @toto: test if we correctly handle all error types (404, 500, 401...) 
+            var response = jQuery.parseJSON(jqXHR.responseText);
+			noticeName = noticeTop;
+            clearNotice();
+            console.log(jqXHR.responseText);
+            //updateNotice("<p>" + response.message + "</p>", "error");
+            alert(response.message);
+        }
+    });
+    
+    // add remove button support
+    $.extend($.ui.dialog.prototype, { 
+        "addbutton": function(buttonName, func) {    
+            var buttons = this.element.dialog("option", "buttons"); 
+            buttons[buttonName] = func; 
+            this.element.dialog("option", "buttons", buttons); 
+        }
+    });
+    $.extend($.ui.dialog.prototype, { 
+        "removebutton": function(buttonName) {    
+            var buttons = this.element.dialog("option", "buttons"); 
+            delete buttons[buttonName]; 
+            this.element.dialog("option", "buttons", buttons); 
+        } 
+    });
+
+<?php $this->jQuery()->onLoadCaptureEnd() ?>

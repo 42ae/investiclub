@@ -1,0 +1,6 @@
+<?php $this->placeholder('sidebar')->captureStart() ?>
+<?php $options = array('ulClass'          => 'subnav', 
+					   'onlyActiveBranch' => true);
+?>
+<?= $this->navigation()->menu()->renderMenu(Zend_Registry::get('nav.submenu'), $options); ?>
+<?php $this->placeholder('sidebar')->captureEnd() ?>

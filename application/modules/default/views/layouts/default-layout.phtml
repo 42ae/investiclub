@@ -1,0 +1,12 @@
+<?= $this->render('partials/_top-menu.phtml'); ?>
+
+<div id="content-wrapper">
+ <div class="group">
+  <?= ($this->hideSidebar) ? '' : $this->placeholder('sidebar'); ?>
+   <div id="<?= ($this->hideSidebar) ? 'content-wide' : 'content'; ?>">
+    <?= ($this->hideBreadcrumbs) ? '' : $this->placeholder('breadcrumbs'); ?>
+    <?= $this->layout()->content; ?>
+   </div>
+ </div>
+</div>
+<!-- end #content-wrapper -->

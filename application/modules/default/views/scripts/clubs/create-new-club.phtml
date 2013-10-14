@@ -1,0 +1,72 @@
+<?php $this->headTitle('Creer un nouveau club'); ?>
+<div>Creer votre club :</div>
+<?php $this->headLink()->appendStylesheet('/assets/css/jquery-ui-1.7.3.custom.css'); ?>
+<?php $this->jQuery()->addJavascriptFile('http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js'); ?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+$().ready(function() {
+    var source = $("#broker").autocomplete( "option", "source" );
+    var brokers = new Array();
+    var id = new Array();
+    $.each(source, function(index, value) { 
+      brokers[index] = value['value'];
+      id[index] = value['id'];
+    });
+	$("#broker").focusout(function(){
+	  var valid = jQuery.inArray($("#broker").val(), brokers);
+	  if (valid == -1) { 
+	      $("#broker_id").val("");
+	  } else {
+	  	  $("#broker_id").val(id[valid]); 
+	   } 
+	})
+	$("#formCreateNew").validate({
+		rules: {
+			first_name: "required",
+			last_name: "required",
+			password: {
+				required: true,
+				minlength: 6
+			},
+			confirm_password: {
+				required: true,
+				minlength: 6,
+				equalTo: "#password"
+			},
+			email: {
+				required: true,
+				email: true
+			}
+		},
+		messages: {
+			first_name: "Please enter your firstname",
+			last_name: "Please enter your lastname",
+			password: {
+				required: "Please provide a password",
+				minlength: "Your password must be at least 6 characters long"
+			},
+			confirm_password: {
+				required: "Please provide a password",
+				minlength: "Your password must be at least 6 characters long",
+				equalTo: "Please enter the same password as above"
+			},
+			email: "Please enter a valid email address"
+		}
+	});
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php $this->form->setAction($this->url()); ?>
+<?php $this->form->setAttrib('id', 'formCreateNew'); ?>
+
+<form id="<?= $this->escape($this->form->getId()); ?>" class="<?= $this->escape($this->form->getAttrib('class')); ?>" action="<?= $this->escape($this->form->getAction()); ?>" method="<?= $this->escape($this->form->getMethod()); ?>" enctype="<?= $this->escape($this->form->getEnctype()); ?>">
+ <table>
+ <?= $this->form->dgCreate ?>
+ <tbody><tr><th style="padding:0"></th><td>
+ <div class="broker">
+  <img id="broker-icon" src="/assets/img/sprites/blank.png" style="display:none" />
+  <p id="broker-desc"></p>
+ </div>
+ </td></tr></tbody>
+ <tbody><tr><td colspan="2"><hr></td></tr></tbody>	
+ <?= $this->form->dgSubmit ?>
+ </table>
+</form>

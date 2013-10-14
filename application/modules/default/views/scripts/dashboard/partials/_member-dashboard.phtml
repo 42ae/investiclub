@@ -1,0 +1,106 @@
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChartUVS);
+      
+      function drawChartUVS() {
+        var data = google.visualization.arrayToDataTable([
+		  ['Date', 'UVS'],
+		  <?php foreach ($this->chart as $id => $val): ?>
+          ['<?= $id ?>', <?= $val['unit'] ?>],
+          <?php endforeach; ?>
+        ]);
+
+        var options = {
+          hAxis: {title: 'Year',  titleTextStyle: {color: 'red'}},
+          backgroundColor: '#FAFAFA'
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('club-performances-uvs'));
+        chart.draw(data, options);
+      }
+      
+      
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Member name', 'Benefit'],
+          <?php foreach ($this->membersStats as $id => $member): ?>
+          ['<?= $this->members->getUserByMemberId($id)->first_name . " " . $this->members->getUserByMemberId($id)->last_name; ?>', <?= $member['value'] ?>],
+          <?php endforeach; ?>
+        ]);
+
+        var options = {
+          backgroundColor: '#FAFAFA'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('member-shares-chart'));
+        chart.draw(data, options);
+      }
+      
+<?php $this->jQuery()->javascriptCaptureEnd()?>
+
+<div id="dbLeftSide" style="float: left; width: 49%">
+<div class="group block-gray">
+<div class="blockTitle"><?=$this->club->name?> : <?= $this->translate('DASHBOARD_CLUB_SUMMARY') ?></div>
+<ul class="block-list">
+	<li><span class="db-row"><?= $this->translate('DASHBOARD_CLUB_TOTAL_ASSETS') ?></span> <span class="assets-profit" style="float: right; color:<?= (round($this->treasury['capital'], 2) > 0) ? '#6FA03D' : '#de3f23' ?>"><?=round($this->treasury['capital'], 2)?> euros</span></li>
+	<li><span class="db-row"><?= $this->translate('DASHBOARD_CLUB_PERFORMENCE') ?></span> <span class="assets-profit" style="float: right; color:<?= (round($this->treasury['perf'], 2) > 0) ? '#6FA03D' : '#de3f23' ?>"> <?=round($this->treasury['perf'], 2)?>%</span></li>
+	<li><span class="db-row"><?= $this->translate('DASHBOARD_CLUB_UNREALIZED_GAIN') ?></span> <span class="assets-profit" style="float: right; color:<?= (round($this->portfolio['stats']['totalVirtualGain'], 2) > 0) ? '#6FA03D' : '#de3f23' ?>"> <?=round($this->portfolio['stats']['totalVirtualGain'], 2)?> euros</span></li>
+	<li><span class="db-row"><?= $this->translate('DASHBOARD_CLUB_UNREALIZED_GAIN_PERCENT') ?></span> <span class="assets-profit" style="float: right; color:<?= (round($this->portfolio['stats']['totalVirtualGainP'], 2) > 0) ? '#6FA03D' : '#de3f23' ?>"> <?=round($this->portfolio['stats']['totalVirtualGainP'], 2)?>%</span></li>
+</ul>
+</div>
+
+<div class="group block-gray">
+<div class="blockTitle"><?= $this->translate('DASHBOARD_CLUB_PERFORMENCE') ?></div>
+<div id="club-performances-uvs" style="width: 527px; height: 350px;"></div>
+</div>
+
+</div>
+
+<div id="dbRightSide" style="float: right; width: 49%">
+
+<div class="group block-gray">
+<div class="blockTitle"><?= $this->translate('DASHBOARD_CLUB_MEMBERS') ?></div>
+<p style="margin-top: 10px"><?= $this->translate('DASHBOARD_CLUB_MEMBERS_DESC') ?></p>
+<div id="member-shares-chart" style="width: 527px; height: 350px;"></div>
+</div>
+
+<div class="group block-gray">
+<div class="blockTitle"><?= $this->translate('DASHBOARD_CONTRIBUTIONS') ?></div>
+<div style="padding-top: 10px;">
+<?php if ($this->checkContributions === true): ?>
+	<?= $this->translate('DASHBOARD_CONTRIBUTIONS_PAID') ?>
+	 <?php else: ?>
+	 <?php 
+	 $i = 0;
+	 foreach ($this->contributions as $memberId => $data) {
+	     if ($data['status'] == 'unpaid') {
+	         $memberMissing = $memberId;
+	         ++$i;
+	     }
+	 }
+	 ?>
+	<div class="flash warning">
+	<?php if ($i == 1): ?>
+		<p>Ce membre n'a pas payé sa cotisation :<br />
+		<?php $memberMissing = $this->members->getUserByMemberId($memberMissing); ?>
+		- <?= $memberMissing->first_name ?> <?= $memberMissing->last_name ?> </p>
+	<?php elseif ($i >= 1): ?>
+		<p>Ces membres n'ont pas payés leur cotisation :<br />
+	<strong>
+		<?php foreach ($this->contributions as $memberId => $data): ?>
+			<?php if ($data['status'] == 'unpaid'): ?>
+				<?php $memberMissing = $this->members->getUserByMemberId($memberId); ?>
+				<?= $memberMissing->first_name ?> <?= $memberMissing->last_name ?>, 
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</strong></p>
+	<?php endif; ?>
+	</div>
+<a
+	href="<?= $this->url(array('controller' => 'members', 'action' => 'contribution'), 'default', true); ?>">Cliquez ici pour vous rendre dans la rubrique "Cotisation".</a>
+	<?php endif; ?>
+</div>
+</div>
+</div>

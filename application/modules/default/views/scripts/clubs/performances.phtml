@@ -1,0 +1,63 @@
+<?php $this->headTitle('Club Performances'); ?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChartUVS);
+      google.setOnLoadCallback(drawChartPerf);
+      google.setOnLoadCallback(drawChartPerfValue);
+      
+      function drawChartUVS() {
+        var data = google.visualization.arrayToDataTable([
+		  ['Date', 'UVS', 'Comparaison CAC40'],
+		  <?php foreach ($this->stats as $id => $val): ?>
+          ['<?=$id;?>', <?=$val['unit'];?>, <?=$val['comp'];?>],
+          <?php endforeach; ?>
+        ]);
+
+        var options = {
+          title: 'Performance UVS / CAC40',
+          hAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('club-performances-UVS'));
+        chart.draw(data, options);
+      }
+      
+      function drawChartPerf() {
+          var data = google.visualization.arrayToDataTable([
+  		  ['Date', 'Performence (%)', 'Comparaison CAC40 (%)'],
+  		  <?php foreach ($this->stats as $id => $val): ?>
+            ['<?=$id;?>', <?=$val['perf'];?>, <?=$val['compP'];?>],
+            <?php endforeach; ?>
+          ]);
+
+          var options = {
+            title: 'Performance / CAC40',
+            hAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
+          };
+
+          var chart = new google.visualization.AreaChart(document.getElementById('club-performances-Perf'));
+          chart.draw(data, options);
+        }
+
+      function drawChartPerfValue() {
+          var data = google.visualization.arrayToDataTable([
+  		  ['Date', 'Capital du club'],
+  		  <?php foreach ($this->stats as $id => $val): ?>
+            ['<?=$id;?>', <?=$val['capital_club'];?>],
+            <?php endforeach; ?>
+          ]);
+
+          var options = {
+            title: 'Capital du Club',
+            hAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
+          };
+
+          var chart = new google.visualization.AreaChart(document.getElementById('club-performances-perf-value'));
+          chart.draw(data, options);
+        }
+      
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<div id="club-performances-UVS"  style="width: 800px; height: 500px;"></div>
+<div id="club-performances-Perf" style="width: 800px; height: 500px;"></div>
+<div id="club-performances-perf-value" style="width: 800px; height: 500px;"></div>

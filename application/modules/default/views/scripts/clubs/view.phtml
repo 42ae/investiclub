@@ -1,0 +1,47 @@
+<?php $this->headTitle('My Club'); ?>
+
+<div style="max-width:850px; margin: 0 auto;">
+<div class="group">
+ <a href="<?= $this->baseUrl() //TODO: ajouter ACL de vue ?>/clubs/edit">Edit my club</a>
+ <h1 style="margin-left:130px" id="user-fullname">&raquo; <?= $this->club->name ?> </h1>
+ <div class="left">
+	<img src="<?= $this->baseUrl() ?>/assets/img/icons/user-picture-unknown.png" />	
+ </div>
+ 
+ <div class="left" style="width:450px">
+ <h2>Informations Générales</h2>
+ <table>
+  <tbody>
+   <tr>
+    <td>Date de création du club&nbsp;&nbsp;</td>
+    <td> <?= $this->club->registration_date ?></td>
+   </tr>
+   <tr>
+    <td>Broker</td>
+    <td><a href="http://www.fortuneo.fr/" name="Fortuneo" target="_blank">Fortuneo</a><?= '';//$this->club->broker_id ?></td>
+   </tr>
+   <tr>
+    <td>Pays</td>
+    <td><?= $this->club->country ?></td>
+   </tr>
+   <tr>
+    <td>Devise</td>
+    <td><?= $this->club->currency ?></td>
+   </tr>
+  </tbody>
+ </table>
+ </div>
+ 
+ <div class="left">
+ <h2>Activité du Club</h2>
+ <table>
+  <tbody>
+   <tr>
+    <td>Sur InvestiClub depuis : </td>
+    <td> &nbsp;&nbsp;<?= $this->club->created_on ?></td>
+   </tr>
+  </tbody>
+ </table>
+ </div>
+</div>
+</div>

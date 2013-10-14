@@ -1,0 +1,305 @@
+<? $this->jQuery()->uiEnable(); ?>
+<? $this->headLink()->appendStylesheet($this->baseUrl() . '/assets/css/table.css') ?>
+
+<div id="options-list">
+ <div style="width: 50%; margin: 0px auto; background-color: #F2F5F7; border: 1px solid #D5DCE8; height: 50px; margin-bottom: 20px; padding: 10px; width: 330px; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px;">
+	<img src="/assets/img/icons/valid-period.png" style="float:left; margin-right:10px"/>
+	<strong><a class="transaction-buy" id="create-message">Acheter une action</a></strong><br />
+	Ajouter une nouvelle action dans votre portefeuille.
+ </div>
+</div>
+
+
+<div id="transaction-buy" class="top-action" style="display:none; margin-bottom:20px">
+ <h3>Acheter une action</h3>
+   <? $this->form->setAttrib('id', 'form-transaction-buy'); ?>
+   <? $this->form->setAction('/ajax/finance/transaction-buy/format/json'); ?>
+   <? $this->form->type->setValue('buy'); ?>
+   
+    <form id="form-transaction-buy" class="top-block-form" action="/ajax/finance/transaction-buy/format/json">
+  <table>
+   <?= $this->form->force->setAttrib('id', 'force-buy') ?>
+   <?= $this->form->type->render() ?>
+  <tr>
+   <?= $this->form->symbol->renderLabel() ?>
+   <?= $this->form->currency->renderLabel() ?>
+   <?= $this->form->date->setAttrib('id', 'date-buy')->renderLabel() ?>
+   <?= $this->form->shares->renderLabel() ?>
+   <?= $this->form->price->renderLabel() ?>
+   <?= $this->form->fees->renderLabel() ?>
+   <th></th>
+  </tr>
+  <tr>
+   <td><?= $this->form->symbol->renderUiWidgetElement() ?></td>
+   <td><?= $this->form->currency->renderViewHelper() ?></td>
+   <td><?= $this->form->date->renderUiWidgetElement() ?></td>
+   <td><?= $this->form->shares->renderViewHelper() ?></td>
+   <td><?= $this->form->price->renderViewHelper() ?></td>
+   <td><?= $this->form->fees->renderViewHelper() ?></td>
+   <td><?= $this->form->submit ?></td>
+  </tr>
+  </table>
+ </form>   
+</div>
+ <div style="display: none" class="flash" id="form-notice-transaction-buy"></div>
+<?= $this->notice()->get($this->messages) ?>
+
+
+<?php $model = array('portfolio' => $this->portfolio['portfolio'], 'stats' => $this->portfolio['stats']) ?>
+<?= $this->partial('finance/partials/_portfolio-list-table.phtml', 'default', $model) ?>
+
+<div id="transaction" style="display:none"></div>
+<div id="delete-transaction" style="display:none"></div>
+
+<div class="modal"><!-- Ajax Spinner --></div>
+
+<?php $this->jQuery()->onLoadCaptureStart() ?>
+//<script>
+
+    $(document).on({
+        ajaxStart: function() { 
+            $("body").addClass("loading"); 
+        },
+        ajaxStop: function() {
+        	$("body").removeClass("loading"); 
+        }    
+    });
+
+	$(document).on("click", ".toggle", function (e) {
+		row = $(this).closest("tr");
+		if (row.next().is(":hidden")) {
+		    row.nextUntil("tbody").show();
+			$(this).attr("src", "/assets/img/icons/collapse.png");
+		} else {
+			row.nextUntil("tbody").fadeOut("fast");
+			$(this).attr("src", "/assets/img/icons/expand.png");
+		}
+	});
+
+    $(".tip").qtip({
+        style: {
+            classes: "ui-tooltip-dark ui-tooltip-shadow"
+        },
+        position: {
+            my: "top middle",  // Position my top left...
+            at: "bottom middle" // at the bottom right of...
+        }
+    });
+
+    
+
+	$( "#dialog:ui-dialog" ).dialog( "destroy" );
+    var types = {error:"error", warning:"warning", success:"success"};
+    var noticeTop = $( "#top-notice" );
+    var noticeName;
+
+    function updateNotice(n)
+    {
+        clearNotice();
+        content = "";
+        $.each(n.content, function(key, value) {
+			content += "<p>" + value + "</p>";
+        });
+        
+        if (n.type == "success") {
+        	noticeTop.stop(true, true).html(content).addClass(n.type).fadeIn(2000);
+        	noticeTop.queue(function() { 
+				setTimeout(function(){ 
+					noticeTop.dequeue(); 
+				}, 5500 );
+			});
+        	noticeTop.fadeOut("fast");
+        } else {
+	    	noticeName.html(content).addClass(n.type).show("slow");
+        }
+    }
+
+    function clearNotice()
+    {
+    	noticeName.hide().empty().removeClass( "error warning success" );
+    	noticeTop.hide().empty().removeClass( "error warning success" );
+    }
+
+	$.extend($.ui.dialog.prototype.options, {
+	    modal: true,
+	    resizable: true,
+	    width: 550,
+	    autoOpen: false,
+	    close: function() {
+        	clearNotice();
+        },
+        buttons: {
+        	"Annuler": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+	});
+
+	function getPortfolio(notice)
+	{
+        $.get("/ajax/finance/list/format/html", function(data) {
+        	$( "#portfolio" ).fadeOut(500, function() {
+        		$( "#portfolio" ).replaceWith(data);
+  				$( "#portfolio" ).stop(true, true).hide().fadeIn(2000);
+  				updateNotice(notice);
+			});
+        });
+	}
+
+    $( "#transaction" ).dialog({
+        buttons: {
+            "Ajouter au portefeuille": function() {
+                clearNotice();
+                var post = function() {
+                    $.post("/ajax/finance/transaction/format/json", $( "#form-transaction" ).serialize(), function(data) {
+                        if (data.messages.type === types.success) {
+                            $( "#transaction" ).dialog( "close" );
+                            getPortfolio(data.messages);
+                        } else if (data.messages.type === types.warning) {
+                            data.messages.content.push("<p style=\"font-weight:bold\">" + "Voulez-vous continuer ?" + "</p>");
+                            updateNotice(data.messages);
+                			
+                			$( "#force" ).val("1");
+    
+                			//hide fields and display input values into span
+    						$.each($( "#form-transaction" ).find(":input:not(input[type=hidden])"), function (idx, element) {
+    							$(element).hide().after("<span style=\"font-weight:bold\">" + $(element).val() + "<span>");
+    						});
+    
+                			//remove "Ajouter au portefeuille" and add "edit" and "confirm" buttons
+    						$( "#transaction" ).dialog("removebutton", "Ajouter au portefeuille"); 
+    						$( "#transaction" ).dialog("addbutton", "Editer", function() { 
+                            	
+    							//redisplays inputs, clean notice and clean span
+                            	clearNotice();
+    					    	$( "#transaction" ).dialog("removebutton", "Editer"); 
+    					    	$( "#transaction" ).dialog("removebutton", "Confirmer"); 
+    					    	$( "#transaction" ).dialog("addbutton", "Ajouter au portefeuille", post);
+    							$( "#form-transaction" ).find(":input:not(input[type=hidden])").show().next().remove();
+    							$( "#force" ).val("0");
+    						}); 
+    						
+    						$( "#transaction" ).dialog("addbutton", "Confirmer", function() { 
+                            	clearNotice();
+    					    	$( "#transaction" ).dialog("removebutton", "Editer"); 
+    					    	$( "#transaction" ).dialog("removebutton", "Confirmer"); 
+    					    	$( "#transaction" ).dialog("addbutton", "Ajouter au portefeuille", post);
+    							$( "#force" ).val("1");
+    							post();
+    						});
+                            
+                        } else
+                        	updateNotice(data.messages);
+              	    }, "json");
+                };
+                post();
+            }
+        },
+        open: function() {
+        	$( "#form-transaction" ).submit( function(e) {
+                e.preventDefault();
+            });
+        }
+    });
+
+
+    $( "#delete-transaction" ).dialog({
+        buttons: {
+            "OK": function() {
+                clearNotice();
+                $.post("/ajax/finance/transaction-delete/format/json", $( "#form-transaction-delete" ).serialize(), function(data) {
+            		if (data.messages.type === types.success) {
+                        $( "#delete-transaction" ).dialog( "close" );
+                        getPortfolio(data.messages);
+                    } else // .type == warning|error
+                        updateNotice(data.messages);
+              	}, "json");
+            }
+        },
+        open: function (event, ui) {
+        	$(this).parents('.ui-dialog-buttonpane button:eq(0)').focus();
+        }
+    });
+
+    
+
+    $( "#form-transaction-buy" ).submit(function(e) {
+        e.preventDefault();
+        clearNotice();
+    	noticeName = $( "#form-notice-transaction-buy");
+        $.post($(this).attr("action"), $(this).serialize(), function(data) {
+            console.log(data);
+        	if (data.messages.type === types.success) {
+        		//$( "#form-add-email:input" ).val("");
+                getPortfolio(data.messages);
+            } else if (data.messages.type == types.warning) {
+				$( ".add-member-submit" ).html('<img alt="" src="/assets/img/icons/add.png"> Confirmer');
+            	$( "#force-buy" ).val("1");
+            	updateNotice(data.messages);
+            }
+            else
+                updateNotice(data.messages);
+      	}, "json");
+    });
+
+    $(document).on("click", ".delete", function(e) {
+    	e.preventDefault();
+        $.get(this.href + '/format/html', function(data) {
+            console.log(data);
+        	$( "#delete-transaction" ).html(data);
+        	noticeName = $( "#form-notice-transaction");
+            $( "#delete-transaction" ).dialog('open');
+        });
+    });
+
+    $(document).on("click", ".buy, .sell, .edit", function(e) {
+    	e.preventDefault();
+    	link = $(this);
+        $.get(this.href + '/format/html', function(data) {
+            $( "#transaction" ).html(data);
+            noticeName = $( "#form-notice-transaction");
+			$( "#transaction #type" ).val(link.attr("class"));
+            $( "#enrollement_date" ).datepicker("disable");
+            $( "#transaction " ).dialog("open");
+            $( "#enrollement_date" ).datepicker("enable");
+        });
+    });
+
+    $.ajaxSetup({
+        error: function handleXhrError(jqXHR, textStatus, errorThrown) {
+            // @toto: test if we correctly handle all error types (404, 500, 401...) 
+            var response = jQuery.parseJSON(jqXHR.responseText);
+			noticeName = noticeTop;
+            clearNotice();
+            console.log(jqXHR.responseText);
+            //updateNotice("<p>" + response.message + "</p>", "error");
+            alert(response.message);
+        }
+    });
+
+	// add remove button support
+	$.extend($.ui.dialog.prototype, { 
+		"addbutton": function(buttonName, func) {	
+			var buttons = this.element.dialog("option", "buttons"); 
+			buttons[buttonName] = func; 
+			this.element.dialog("option", "buttons", buttons); 
+		}
+	});
+	$.extend($.ui.dialog.prototype, { 
+		"removebutton": function(buttonName) {	
+			var buttons = this.element.dialog("option", "buttons"); 
+			delete buttons[buttonName]; 
+			this.element.dialog("option", "buttons", buttons); 
+		} 
+	});
+
+    $(document).on("click", ".transaction-buy", function(e) {
+        e.preventDefault();
+    	noticeName = $( "#form-notice-transaction-buy");
+        clearNotice();
+    	$( "#form-transaction-buy" ).get(0).reset(); // reset form
+    	if ($( "#transaction-buy" ).is(":hidden"))
+            $( ".top-action" ).hide();
+        $( "#transaction-buy" ).stop(true, true).slideToggle("slow");
+    });
+<?php $this->jQuery()->onLoadCaptureEnd() ?>

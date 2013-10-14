@@ -1,0 +1,30 @@
+<?php
+    // Remove all non-stock elements
+    $elements = $this->form->getElements();
+    foreach ($elements as $id => $element) {
+        if (substr($element->getName(), 0, 6) !== 'stock_') {
+            unset($elements[$id]);        
+        }
+    }
+?>
+{
+  "cols": [
+    {"id": "ticker",         "label": "Ticker",         "type": "string"},
+    {"id": "last-price", "label": "Dernier prix", "type": "string"},
+    {"id": "quantity",       "label": "Quantité",       "type": "string"},
+    {"id": "total-value",    "label": "Valeur totale",    "type": "string"}
+    ],
+   "rows": [
+<?php $i = 0; ?>
+<?php foreach ($elements as $element): ?>
+<?php $explode = explode('_', $element->getName()) ?>
+<?php $stockId = $explode[1] ?>
+     {"c":[
+       {"v":"<?= $this->stocks[$stockId]['name']; ?>"},
+       {"v":<?= json_encode(str_replace("\n", '', $element->renderViewHelper())) ?>},
+       {"v":<?= json_encode('<span id="stock_' . $stockId . '_shares">' . $this->stocks[$stockId]['shares'] . '</span>') ?>},
+       {"v":<?= json_encode('<span id="stock_' . $stockId . '_total">' . $this->stocks[$stockId]['shares'] * $this->stocks[$stockId]['lastPrice'] . '</span>') ?>}
+     ]}<?= (++$i === count($elements)) ? '' : ',' ?>
+<?php endforeach; ?>
+  ]
+}
